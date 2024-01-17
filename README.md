@@ -15,8 +15,14 @@
 ## Version history \:rocket\:
 | **Version** | **Developer** | **Goal**                                       | **Status**           | **Result**                 |
 |-------------|---------------|------------------------------------------------|----------------------|----------------------------|
-| V1.0        | MJJM          | Leviation                                      | \:heavy_check_mark\: | Stable levitation ~ 2 min  |
-| V2.0        | MJ            | Smaller form factor, more robust               | \:heavy_check_mark\: | Stable levitation >> 2 min |
-| V2.5        | JH Technical  | Fix minor bugs, improve heating and components | \:heavy_check_mark\: | Same as above              |
-| V2.6        | A. Morselli   | Fix faulty wiring, and change sensor choice    | \:soon\:             |                            |
+| V1.0        | MJJM          | Leviation                                      | \:white_check_mark\: | Stable levitation ~ 2 min  |
+| V2.0        | MJ            | Smaller form factor, more robust               | \:white_check_mark\: | Stable levitation >> 2 min |
+| V2.5        | JH Technical  | Fix minor bugs, improve heating and components | \:white_check_mark\: | Same as above              |
+| V2.6        | A. Morselli   | Fix faulty wiring, changing sensors    | \:hammer\:             |                            |
 | V3.0        | A. Morselli   | Modular redesign for first 'Take-home lab'     | \:hammer\:           |                            |
+
+## Grants \:moneybag\:
+
+| Who | Period | Amount |
+|-----|--------|--------|
+| Excited NTNU | Spring 2024 | 60kNok | 
