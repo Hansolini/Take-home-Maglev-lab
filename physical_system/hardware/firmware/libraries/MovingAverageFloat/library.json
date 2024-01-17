@@ -1,0 +1,17 @@
+{
+  "name": "MovingAverageFloat",
+  "keywords": "moving-average, filter, average, float, processing",
+  "description": "Arduino & Mbed Library for averaging float numbers",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pilotak/MovingAverageFloat.git"
+  },
+  "authors": {
+    "name": "Pavel Slama",
+    "email": "info@pavelslama.cz",
+    "url": "https://github.com/pilotak"
+  },
+  "version": "1.0.1",
+  "frameworks": "arduino, mbed",
+  "platforms": "*"
+}

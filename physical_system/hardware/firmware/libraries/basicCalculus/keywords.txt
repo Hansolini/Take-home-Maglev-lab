@@ -1,0 +1,6 @@
+# libraries
+basicCalculus	KEYWORD1
+AlphaBeta	KEYWORD1
+AlphaBetaInt	KEYWORD1
+
+# NOTE: separate keywords with single tab 
