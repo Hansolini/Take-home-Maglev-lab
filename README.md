@@ -30,7 +30,7 @@ Following is information on student reports, development history for the hardwar
 5. [P. I. D. K. Fosmo, "Control of a magnetic levitation system using feedback linearization", B.S. thesis, ITK, NTNU, Trondheim, 2023.](./student_contributions/literature/2023_NTNU_project_thesis_pål_fosmo.pdf)
 ## Version history \:rocket\:
 | **Version** | **Developer** | **Goal**                                       | **Status**           | **Result**                 |
-|-------------|---------------|------------------------------------------------|----------------------|----------------------------|
+|---------|-----------|--------------------------------------------|:----------------:|------------------------|
 | V1.0        | M. Brønstad <br> J. O. Deila <br> J. Dyrskog <br> M. Langklopp          | Leviation                                      | \:white_check_mark\: | Stable levitation ~ 2 min  |
 | V2.0        | M. Brønstad <br> J. O. Deila <br> J. Dyrskog            | Smaller form factor, more robust               | \:white_check_mark\: | Stable levitation >> 2 min |
 | V2.5        | JH Technical  | Fix minor bugs, improve heating and components | \:white_check_mark\: | Same as above              |
