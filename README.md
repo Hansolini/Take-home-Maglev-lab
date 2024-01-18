@@ -11,7 +11,7 @@ The development is mainly driven by student contributions in the form of BSc's a
 - **Hardware development:** Circuit design and assembly of physical system
 
 This repository contains a
-- **[MATLAB simulator](./simulation):** Implementation of several models with examples, see [main.mlx](./simulation/main.mlx) for how to use it,
+- **[MATLAB simulator](./simulation):** Implementation of several models with examples, see [main.mlx](./simulation/main.mlx) for how to use it.
 - **[Design files & software](./physical_system):** PCB files, test code and example usage for the physical system.
 - **[Student contributions](./student_contributions):** Code and project reports from student projects.
 
