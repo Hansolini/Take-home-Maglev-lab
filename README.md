@@ -36,7 +36,7 @@ Following is information on student reports, development history for the hardwar
 | V2.5        | JH Technical  | Fix minor bugs, improve heating and components | \:white_check_mark\: | Same as above              |
 | V2.6        | A. Morselli   | Fix faulty wiring, changing sensors    | \:hammer\:             |                            |
 | V3.0        | A. Morselli   | Modular redesign for first 'Take-home lab'     | \:hammer\:           |                            |
-## Grants \:moneybag\:
+## Grants \:dollar\:
 | Who | Period | Amount |
 |-----|--------|--------|
 | Excited NTNU | Spring 2024 | 60kNok | 
