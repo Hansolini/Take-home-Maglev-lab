@@ -4,13 +4,9 @@ The "Take-home Maglev lab" is a small lab in development at the Norwegian Univer
 <div style="text-align: center; display: flex; justify-content: center;">
     <figure style="margin-right: 10px;">
         <img src="./media/images_and_illustrations/maggy_20_levitating.jpg" alt="First Image" width="300"/>
-        
-        <figcaption>Maggy V2.0</figcaption>
     </figure>
     <figure>
-        <img src="./media/images_and_illustrations/maglev_system_illustration.jpg" alt="Second Image" width="300"/>
-        
-        <figcaption>Model</figcaption>
+        <img src="./media/images_and_illustrations/maglev_system_illustration.jpg" alt="Second Image" width="300"/> 
     </figure>
 </div>
 
