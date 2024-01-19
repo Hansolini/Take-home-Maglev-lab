@@ -1,10 +1,11 @@
 # Take-home Maglev lab \:magnet\:
-The "Take-home Maglev lab" is a small lab in development at the Norwegian University of Science and Technology (NTNU) tailored to students in control and related fields. It is intended as a kit that students can bring home and assemble on their own, with additional lab-assignments for teaching anything from fundamental to advanced concepts within control engineering.
 
 <div align="center" style="gap: 50px">
     <img src="./media/images_and_illustrations/maggy_20_levitating.jpg" alt="First Image" width="300" style="margin-bottom: 10px;"/>
     <img src="./media/images_and_illustrations/maglev_system_illustration.jpg" alt="Second Image" width="300" style="margin-bottom: 10px;"/>
 </div>
+
+The "Take-home Maglev lab" is a small lab in development at the Norwegian University of Science and Technology (NTNU) tailored to students in control and related fields. It is intended as a kit that students can bring home and assemble on their own, with additional lab-assignments for teaching anything from fundamental to advanced concepts within control engineering.
 
 See [the wiki](https://www.ntnu.no/wiki/x/OYSyEw) for more information on the project.
 
