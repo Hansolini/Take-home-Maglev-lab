@@ -7,7 +7,7 @@ The "Take-home Maglev lab" is a small lab in development at the Norwegian Univer
         <figcaption>First Image Caption</figcaption>
     </figure>
     <figure>
-        <img src="./media/maglev_system_illustration.jpg" alt="Second Image" width="300"/>
+        <img src="./media/images_and_illustrations/maglev_system_illustration.jpg" alt="Second Image" width="300"/>
         <figcaption>Second Image Caption</figcaption>
     </figure>
 </div>
