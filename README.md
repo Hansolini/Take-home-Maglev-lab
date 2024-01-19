@@ -3,13 +3,6 @@ The "Take-home Maglev lab" is a small lab in development at the Norwegian Univer
 
 See [the wiki](https://www.ntnu.no/wiki/x/OYSyEw) for more information on the project.
 
-The goal of this lab is to provide something fun and sufficiently complex for students to boost confidence and develop self efficacy in the context of control. 
-
-The development is mainly driven by student contributions in the form of BSc's and MSc's projects, focusing mainly on:
-- **Theoretical development:** First principles modeling, control analysis, system configuration analysis
-- **Simulator development:** Analyzes and development of efficient MATLAB & Python model implementations
-- **Hardware development:** Circuit design and assembly of physical system
-
 This repository contains a
 - **[MATLAB simulator](./simulation):** Implementation of several models with examples, see [main.mlx](./simulation/main.mlx) for how to use it,
 - **[Design files & software](./physical_system):** PCB files, test code and example usage for the physical system.
@@ -33,10 +26,6 @@ Following is information on student reports, development history for the hardwar
 |---------|-----------|--------------------------------------------|:----------------:|------------------------|
 | V1.0        | M. Brønstad <br> J. O. Deila <br> J. Dyrskog <br> M. Langklopp          | Leviation                                      | \:white_check_mark\: | Stable levitation ~ 2 min  |
 | V2.0        | M. Brønstad <br> J. O. Deila <br> J. Dyrskog            | Smaller form factor, more robust               | \:white_check_mark\: | Stable levitation >> 2 min |
-| V2.5        | JH Technical  | Fix minor bugs, improve heating and components | \:white_check_mark\: | Same as above              |
+| V2.5        | JH Technical AS | Fix minor bugs, improve heating and components | \:white_check_mark\: | Same as above              |
 | V2.6        | A. Morselli   | Fix faulty wiring, changing sensors    | \:hammer\:             |                            |
 | V3.0        | A. Morselli   | Modular redesign for first 'Take-home lab'     | \:hammer\:           |                            |
-## Grants \:dollar\:
-| Who | Period | Amount |
-|-----|--------|--------|
-| Excited NTNU | Spring 2024 | 60kNok | 
