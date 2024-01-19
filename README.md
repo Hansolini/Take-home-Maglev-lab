@@ -4,7 +4,7 @@ The "Take-home Maglev lab" is a small lab in development at the Norwegian Univer
 See [the wiki](https://www.ntnu.no/wiki/x/OYSyEw) for more information on the project.
 
 This repository contains a
-- **[MATLAB simulator](./simulation):** Implementation of several models with examples, see [main.mlx](./simulation/main.mlx) for how to use it,
+- **[MATLAB simulator](./simulation):** Implementation of several models with examples, see [main.mlx](./simulation/main.mlx) for how to use it.
 - **[Design files & software](./physical_system):** PCB files, test code and example usage for the physical system.
 - **[Student contributions](./student_contributions):** Code and project reports from student projects.
 
