@@ -1,4 +1,4 @@
-function [lui, lecn] = obs_check(f, h, x0, input, T, epsilon)
+function [lui, lecn] = obs_check(f, h, x0, input, T, epsilon, states_to_include)
 
 %% Setting up some things:
 % Number of states:
@@ -8,18 +8,18 @@ states = size(x0, 1);
 e_ = mat2cell(eye(states),[states], ones(1, states));
 
 % Initialising time vector
-t_step = 1e-3;
+t_step = T/100; % Tried with T/1000. It took 4 times longer and the reult was basically the same. At least for lui.
 tspan = 0:t_step:T;
 
 
 
 %% Coordinate transform:
 % Scale the states such that they have approximately the same scale:
-a = 15e-3/10;
-b = 100e-3/10;
+a = 20e-3/10;
+b = (pi/2)/10;
 
-c = (pi/2)/10;
-d = (3*2*pi)/10;
+c = a*100;%100e-3/10;
+d = b*100;%(3*2*pi)/10;
 
 % x_ = P1 x
 P1_inv = diag([a a a b b b c c c d d d]);
@@ -85,13 +85,13 @@ for row = 1:states
         %integrand = (y_plus{row} - y_minus{row}).'*(y_plus{column} - y_minus{column});
         a = y_plus{row} - y_minus{row};
         b = y_plus{column} - y_minus{column};
-        integrand = a(1, :).*b(1, :) + a(2, :).*b(2, :) + a(3, :).*b(3, :);
-        integral = trapz(integrand);
+        integrand = a(1, :).*b(1, :) + a(2, :).*b(2, :) + a(3, :).*b(3, :) + a(4, :).*b(4, :) + a(5, :).*b(5, :) + a(6, :).*b(6, :) + a(7, :).*b(7, :) + a(8, :).*b(8, :) + a(9, :).*b(9, :);
+        integral = trapz(tspan, integrand);
         obs_gram(row, column) = (1/(4*epsilon^2))*integral;
     end
 end
-observable_states = [1:5 7:11];
-obs_gram_red = obs_gram(observable_states, observable_states);
+
+obs_gram_red = obs_gram(states_to_include, states_to_include);
 
 %obs_gram_eig = eig(obs_gram);
 obs_gram_red_eig = eig(obs_gram_red);
@@ -109,7 +109,7 @@ lecn = sqrt(max(obs_gram_red_eig)/min(obs_gram_red_eig));
 
 
 %% 
-% Todo:
+% Done:
 
 
 
@@ -123,5 +123,8 @@ lecn = sqrt(max(obs_gram_red_eig)/min(obs_gram_red_eig));
 % using formula (4) from the paper inside a nested for loop.
 % Place the elements in the initialized matrix after they have been
 % calculated.
+
+%Todo:
+
 
 end
