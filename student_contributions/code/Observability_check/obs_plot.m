@@ -52,12 +52,17 @@ y = linspace(grid_size, -grid_size, grid_points);
 % Run observability check for every point in the grid:
 lui = zeros(grid_points);
 lecn = zeros(grid_points);
+tic;
+timestamps = zeros(grid_points);
 wait = waitbar(0, sprintf("0 out of %d points done.", grid_points^2));
 for row_index = 1:size(y, 2)
     for column_index = 1:size(x, 2)
         x0 = [x(column_index),y(row_index),zEq(1),zeros(1,9)]';
         [lui(row_index, column_index), lecn(row_index, column_index)] = obs_check(f, h, x0, no_input, T, epsilon, states_to_include);
         %disp([row_index;column_index])
+        
+        % Save timestamp:
+        timestamps(row_index, column_index) = toc;
 
         % Update waitbar:
         points_done = grid_points*(row_index - 1) + column_index;
