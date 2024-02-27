@@ -1,4 +1,4 @@
-function [lui, lecn] = obs_check(f, h, x0, input, T, epsilon, states_to_include)
+function [lui, lecn, tspan, x_plus_e_, x_minus_e_] = obs_check(f, h, x0, input, T, epsilon, states_to_include)
 
 %% Setting up some things:
 % Number of states and measurements:
@@ -91,6 +91,7 @@ for row = 1:states
         for n = 1:measurements
             integrand = integrand + a(n, :).*b(n, :);
         end
+
         integral = trapz(tspan, integrand);
         obs_gram(row, column) = (1/(4*epsilon^2))*integral;
     end
