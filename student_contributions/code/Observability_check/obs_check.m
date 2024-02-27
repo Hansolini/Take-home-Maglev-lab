@@ -1,8 +1,9 @@
 function [lui, lecn] = obs_check(f, h, x0, input, T, epsilon, states_to_include)
 
 %% Setting up some things:
-% Number of states:
+% Number of states and measurements:
 states = size(x0, 1);
+measurements = size(h(x0, input), 1);
 
 % Initialising unit vectors
 e_ = mat2cell(eye(states),[states], ones(1, states));
@@ -85,7 +86,11 @@ for row = 1:states
         %integrand = (y_plus{row} - y_minus{row}).'*(y_plus{column} - y_minus{column});
         a = y_plus{row} - y_minus{row};
         b = y_plus{column} - y_minus{column};
-        integrand = a(1, :).*b(1, :) + a(2, :).*b(2, :) + a(3, :).*b(3, :) + a(4, :).*b(4, :) + a(5, :).*b(5, :) + a(6, :).*b(6, :) + a(7, :).*b(7, :) + a(8, :).*b(8, :) + a(9, :).*b(9, :);
+        
+        integrand = zeros(size(a(1, :)));
+        for n = 1:measurements
+            integrand = integrand + a(n, :).*b(n, :);
+        end
         integral = trapz(tspan, integrand);
         obs_gram(row, column) = (1/(4*epsilon^2))*integral;
     end

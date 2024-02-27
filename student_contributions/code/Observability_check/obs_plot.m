@@ -66,13 +66,13 @@ for row_index = 1:size(y, 2)
         % Compute final time
         seconds_left = mean(timestamps(1:row_index,1:column_index),'all')*sum(timestamps(:) == 0);
         current_time = datetime('now');
-        final_time = currentTime + seconds(seconds_left);
+        final_time = current_time + seconds(seconds_left);
 
         % Update waitbar:
         points_done = grid_points*(row_index - 1) + column_index;
         waitbar(points_done/grid_points^2, wait,  sprintf("%d out of %d points done.\n Final time: %s", points_done, grid_points^2, datestr(final_time)));
     end
-    save('obs_plot.mat')
+    %save('obs_plot.mat')
 end
 pause(250e-3);
 close(wait);
