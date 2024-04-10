@@ -1,8 +1,8 @@
 %grid_size = 0.05;
-grid_size = 0.003;
+%grid_size = 0.003;
 
 %load('obs_plot.mat')
-load('obs_plot.mat')
+%load('obs_plot.mat')
 
 %figure(1);
 figure(2);

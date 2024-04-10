@@ -5,7 +5,9 @@ clear all; close all; clc;
 parameters_maggy_V2;
 modelName = 'fast';
 
-correctionFactorFast = computeSolenoidRadiusCorrectionFactor(params,'fast');
+%correctionFactorFast = computeSolenoidRadiusCorrectionFactor(params,'fast');
+% Let's hardcode this in for now: (It should be ok as long as nothing about the solenoids gets changed.)
+correctionFactorFast = 0.558361865282244;
 % correctionFactorAccurate = computeSolenoidRadiusCorrectionFactor(params,'accurate');
 
 paramsFast = params;
@@ -24,11 +26,11 @@ uLp = zeros(length(params.solenoids.r),1);
 
 
 
-
+%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Setting up scaling factors for the states:
-a = 20e-3/10;
-b = (pi/2)/10;
+a = 0.5e-3;%20e-3/10;
+b = 2*(pi/180);%(pi/2)/10;
 
 c = a*100;%100e-3/10;
 d = b*100;%(3*2*pi)/10;
@@ -52,12 +54,13 @@ no_input = zeros(4, 1);
 % Choose simulation time and epsilon used 
 % to calculate the observability gramian:
 T = 10e-3;
-epsilon = 1e-4;
+epsilon = 1e-3;
 states_to_include = [1:5];%[1:5 7:11];
+measurements_to_include = [1:9];
 
 % Define grid size and the number of points in a row or column in the grid:
-grid_size = 30e-3;
-grid_points = 3;
+grid_size = 50e-3;
+grid_points = 101;
 
 % Make sure that the grid includes the equilibrium:
 if round(mod(grid_points, 2)) == 0
@@ -139,4 +142,4 @@ for row_index = 1:size(y, 2)
 end
 
 pause(250e-3);
-close(wait);
+delete(wait);
