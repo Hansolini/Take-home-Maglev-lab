@@ -11,20 +11,20 @@ states_to_include = [1:5];
 measurements_to_include = [1:9];
 
 
-
-r_factor = [0.01 0.05 0.1 0.2 0.5 1 1.5 2 3 5 1e1 1e2 1e3 1e4 1e5 1e6 1e7 1e8 1e9 1e10 1e11 1e12 1e13 1e14];
-% r_factor = [1e1 1e2 1e3 1e4 1e5 1e6 1e7 1e8 1e9 1e10 1e11 1e12 1e13 1e14];
+r_factor = logspace(-1, 0, 100);
+%r_factor = [0.01 0.05 0.1 0.2 0.5 1 1.5 2 3 5];
+%r_factor = [1];
 points = size(r_factor, 2);
 
 %%
-for n = 1:points
-    paramsFastMovedSensors = paramsFast;
-    paramsFastMovedSensors.sensors.x = paramsFast.sensors.x*r_factor(n)*n;
-    paramsFastMovedSensors.sensors.y = paramsFast.sensors.y*r_factor(n)*n;
-    h = @(x,u) maglevSystemMeasurements(x,u,paramsFastMovedSensors ,modelName);
-
-    h([-1e5;0;zEq;0;0;0;0;0;0;0;0;0], no_input)
-end
+% for n = 1:points
+%     paramsFastMovedSensors = paramsFast;
+%     paramsFastMovedSensors.sensors.x = paramsFast.sensors.x*r_factor(n)*n;
+%     paramsFastMovedSensors.sensors.y = paramsFast.sensors.y*r_factor(n)*n;
+%     h = @(x,u) maglevSystemMeasurements(x,u,paramsFastMovedSensors ,modelName);
+% 
+%     h([-1e5;0;zEq;0;0;0;0;0;0;0;0;0], no_input)
+% end
 %%
 
 
@@ -41,8 +41,8 @@ paramsFastMovedSensors.sensors.y = paramsFast.sensors.y*r_factor(n)*n;
 h = @(x,u) maglevSystemMeasurements(x,u,paramsFastMovedSensors ,modelName);
 
 % paramsFastMovedSensors = paramsFast;
-% paramsFastMovedSensors.sensors.x = [0, 0, 0.0212];
-% paramsFastMovedSensors.sensors.y = [0 0.0212 0];
+% paramsFastMovedSensors.sensors.x = [0, 0, 0.0212]*0.35;
+% paramsFastMovedSensors.sensors.y = [0 0.0212 0]*0.35;
 % h = @(x,u) maglevSystemMeasurements(x,u,paramsFastMovedSensors ,modelName);
 
 lui = [];
