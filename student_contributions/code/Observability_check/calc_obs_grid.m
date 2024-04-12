@@ -39,16 +39,24 @@ d = b*100;%(3*2*pi)/10;
 P1_inv = diag([a a a b b b c c c d d d]);
 P1 = inv(P1_inv);
 
+% I THINK THIS COMMENTED BLOCK IS WRONG!
+% % And for the measurements:
+% measurement_noise_covariance = 1e-3*diag(kron(ones(1, 3), [0.0084 0.0085 0.0124]));
+% 
+% % y_ = P2 y
+% P2_inv = measurement_noise_covariance.^0.5;
+% P2 = inv(P2_inv);
+
 % And for the measurements:
-measurement_noise_covariance = 1e-3*diag(kron(ones(1, 3), [0.0084 0.0085 0.0124]));
+measurement_noise_sigma = diag(kron(ones(1, 3), 1e-3*[0.0084 0.0085 0.0124].^0.5));
 
 % y_ = P2 y
-P2_inv = measurement_noise_covariance.^0.5;
+P2_inv = measurement_noise_sigma;
 P2 = inv(P2_inv);
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%
-clc
+%clc
 no_input = zeros(4, 1);
 
 % Choose simulation time and epsilon used 
@@ -59,8 +67,8 @@ states_to_include = [1:5];%[1:5 7:11];
 measurements_to_include = [1:9];
 
 % Define grid size and the number of points in a row or column in the grid:
-grid_size = 50e-3;
-grid_points = 101;
+grid_size = 25e-3;
+grid_points = 7;
 
 % Make sure that the grid includes the equilibrium:
 if round(mod(grid_points, 2)) == 0
