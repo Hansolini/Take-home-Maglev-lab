@@ -7,7 +7,7 @@
 
 %%
 % loading the simulation
-load("obs_plot.mat")
+%load("obs_plot.mat")
 
 
 no_input = zeros(4, 1);
@@ -15,7 +15,7 @@ states_to_include = [1:5];
 measurements_to_include = [1:9];
 
 
-r_factor = logspace(-1, 1, 100);
+r_factor = [0 logspace(-1, 1, 100)];
 %r_factor = [0.01 0.05 0.1 0.2 0.5 1 1.5 2 3 5];
 %r_factor = [1];
 points = size(r_factor, 2);
@@ -86,4 +86,4 @@ pause(250e-3);
 delete(wait);
 
 clear x_minus_e_ x_plus_e_
-save("radial_sensor_placement_12_4.mat")
+save("radial_sensor_placement_16_4.mat")
