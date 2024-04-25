@@ -86,7 +86,7 @@ lecn = zeros(grid_points);
 x_plus_e_ = cell(grid_points);
 x_minus_e_ = cell(grid_points);
 
-zeq_offset = -0.002;
+zeq_offset = +0.002;
 
 timestamps = zeros(grid_points);
 wait = waitbar(0, sprintf("0 out of %d points done.", grid_points^2));
@@ -114,7 +114,7 @@ end
 pause(250e-3);
 close(wait);
 
-save('obs_plot_z-2mm.mat') % Move to try catch!!!!
+save('obs_plot_z+2mm.mat') % Move to try catch!!!!
 
 
 % %% Use this section when simulations are already done:
