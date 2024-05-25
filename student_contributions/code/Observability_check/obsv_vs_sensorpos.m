@@ -14,22 +14,22 @@ no_input = zeros(4, 1);
 states_to_include = [1:5];
 measurements_to_include = [1:9];
 
+% Use this when only testing for r_factor:
+%r_factor = [0 logspace(-1, 1, 100)];
 
-r_factor = [0 logspace(-1, 1, 100)];
+% Use this when testing both angle and r_factor:
+r_factor = kron(ones(1, 11), [0 logspace(-1, 1, 20)]);
+theta = kron(linspace(0, (pi/2), 11), ones(1, 21));
+
+% Outdated:
 %r_factor = [0.01 0.05 0.1 0.2 0.5 1 1.5 2 3 5];
 %r_factor = [1];
+
+
 points = size(r_factor, 2);
 
 
-%% Fixing the noise bug
-% And for the measurements:
-measurement_noise_sigma = diag(kron(ones(1, 3), 1e-3*[0.0084 0.0085 0.0124].^0.5));
-
-% y_ = P2 y
-P2_inv = measurement_noise_sigma;
-P2 = inv(P2_inv);
-%%
-
+% Not in use:
 %%
 % for n = 1:points
 %     paramsFastMovedSensors = paramsFast;
@@ -49,20 +49,27 @@ lecn_average = [];
 
 
 for n = 1:points
-paramsFastMovedSensors = paramsFast;
-paramsFastMovedSensors.sensors.x = paramsFast.sensors.x*r_factor(n);
-paramsFastMovedSensors.sensors.y = paramsFast.sensors.y*r_factor(n);
-h = @(x,u) maglevSystemMeasurements(x,u,paramsFastMovedSensors ,modelName);
-
+% Use these lines when only testing for r_factor:
 % paramsFastMovedSensors = paramsFast;
-% paramsFastMovedSensors.sensors.x = [0, 0, 0.0212]*0.35;
-% paramsFastMovedSensors.sensors.y = [0 0.0212 0]*0.35;
+% paramsFastMovedSensors.sensors.x = paramsFast.sensors.x*r_factor(n);
+% paramsFastMovedSensors.sensors.y = paramsFast.sensors.y*r_factor(n);
 % h = @(x,u) maglevSystemMeasurements(x,u,paramsFastMovedSensors ,modelName);
+
+% Use these lines instead when testing both angle and r_factor:
+angle = theta(n);
+paramsFastMovedSensors = paramsFast;
+paramsFastMovedSensors.sensors.x = [0 0.0212*cos(angle)      0.0212*sin(angle)]*r_factor(n);
+paramsFastMovedSensors.sensors.y = [0 0.0212*sin(angle)      0.0212*-cos(angle)]*r_factor(n);
+h = @(x,u) maglevSystemMeasurements(x,u,paramsFastMovedSensors ,modelName);
 
 lui = [];
 lecn = [];
-for row_index = 41:50
-    for column_index = 52:61
+
+row_range = [47:50 52:55];%41:50;
+column_range = [47:50 52:55];%52:61;
+
+for row_index = row_range
+    for column_index = column_range
         
         [obs_gram] = calc_obs_gram(h, no_input, tspan, x_plus_e_{row_index, column_index}, x_minus_e_{row_index, column_index}, epsilon, P1_inv, P2, measurements_to_include);
         [lui(row_index, column_index), lecn(row_index, column_index)] = lui_and_lecn(obs_gram, states_to_include);
@@ -70,8 +77,8 @@ for row_index = 41:50
         
     end 
 end
-lui = lui(41:50, 52:61);
-lecn = lecn(41:50, 52:61);
+lui = lui(row_range, column_range);
+lecn = lecn(row_range, column_range);
 lui_average(n) = mean(lui, "all");
 lecn_average(n) = mean(lecn, "all");
 
@@ -85,5 +92,35 @@ end
 pause(250e-3);
 delete(wait);
 
-clear x_minus_e_ x_plus_e_
-save("radial_sensor_placement_16_4.mat")
+%clear x_minus_e_ x_plus_e_
+%save("radial_sensor_placement_20_5.mat")
+
+%%
+% figure(1);
+% 
+% clf;
+% 
+% subplot(2,1,1);
+% 
+% grid on; hold on; box on;
+% 
+% ylabel('lui')
+% plot(r_factor,lui_average,'b', 'LineWidth' ,2)
+% %set(gca, 'xscale’,‘log')
+% 
+% xlabel('Relative position')
+% 
+% ylim([14, 40])
+% 
+% subplot(2,1,2);
+% 
+% grid on; hold on; box on;
+% 
+% plot(r_factor, lecn_average, 'b', 'LineWidth' ,2)
+% ylabel('lecn' )
+% 
+% xlabel( 'Relative position')
+% 
+% ylim([3,7])
+% 
+% %set(gca, 'xscale’,‘log'’)
