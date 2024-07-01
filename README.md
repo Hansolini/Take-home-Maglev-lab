@@ -35,4 +35,5 @@ Following is information on student reports, development history for the hardwar
 | V2.0        | M. Brønstad <br> J. O. Deila <br> J. Dyrskog            | Smaller form factor, more robust               | \:white_check_mark\: | Stable levitation >> 2 min |
 | V2.5        | JH Technical AS | Fix minor bugs, improve heating and components | \:white_check_mark\: | Stable levitation >> 2 min              |
 | V2.6        | A. Morselli   | Fix faulty wiring, changing sensors    | \:white_check_mark\:             |  Stable levitation >> 30 min                           |
+| V2.7        | A. Morselli   | Modular design and testbench for V3.0    | \:white_check_mark\:             |                      |
 | V3.0        | A. Morselli   | Modular redesign for first 'Take-home lab'     | \:hammer\:           |                            |
