@@ -5,16 +5,16 @@
     <img src="./media/images_and_illustrations/maglev_system_illustration.jpg" alt="Second Image" width="300" style="margin-bottom: 10px;"/>
 </div>
 
-The "Take-home Maglev lab" is a small lab in development at the Norwegian University of Science and Technology (NTNU) tailored to students in control and related fields. It is intended as a kit that students can bring home and assemble on their own, with additional lab-assignments for teaching anything from fundamental to advanced concepts within control engineering.
+The "Take-home Maglev lab" is a small lab in development at the Norwegian University of Science and Technology (NTNU) tailored to students in control and related fields. It is intended as a kit that students can bring home and assemble independently, with additional lab assignments for teaching anything from fundamental to advanced concepts within control engineering.
 
 See [the wiki](https://www.ntnu.no/wiki/x/OYSyEw) for more information on the project.
 
 This repository contains a
 - **[MATLAB simulator](./simulation):** Implementation of several models with examples, see [main.mlx](./simulation/main.mlx) for how to use it.
-- **[Design files & software](./physical_system):** PCB files, test code and example usage for the physical system.
+- **[Design files & software](./physical_system):** PCB files, test code, and example usage for the physical system.
 - **[Student contributions](./student_contributions):** Code and project reports from student projects.
 
-Following is information on student reports, development history for the hardware and grants provided for the project.
+Following is information on student reports and hardware development history.
 ## Project reports \:books\:
 ### 2022
  1. [M. Brønstad, J. O. Deila, J. Dyerskog, and M. Langklopp, "Magnetic levitation system: Design, prototyping and testing of a digital PID-controller", B.S. thesis, ITK, NTNU, Trondheim, 2022.](./student_contributions/literature/2022_NTNU_bachelor_thesis_MJJM.pdf)
