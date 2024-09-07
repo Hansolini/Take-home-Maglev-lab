@@ -34,20 +34,28 @@ constexpr int PWM_FREQUENCY = 32258;             // Frequency for PWM to avoid a
 // ========================================================
 //                    SOLENOID CONFIGURATION
 // ========================================================
+
+// y-
 constexpr int MD1_IN1 = 3;
 constexpr int MD1_IN2 = 2;
+
+// x+
 constexpr int MD2_IN1 = 5;
 constexpr int MD2_IN2 = 4;
+
+// x-
 constexpr int MD3_IN1 = 7;
 constexpr int MD3_IN2 = 6;
+
+// y+
 constexpr int MD4_IN1 = 9;
 constexpr int MD4_IN2 = 8;
 
 constexpr int MOTOR_PINS[][2] = {
-    {MD3_IN1, MD3_IN2},
-    {MD2_IN1, MD2_IN2},
-    {MD1_IN1, MD1_IN2},
-    {MD4_IN1, MD4_IN2}
+    {MD2_IN1, MD2_IN2}, // x+
+    {MD3_IN1, MD3_IN2}, // x-
+    {MD4_IN1, MD4_IN2}, // y+
+    {MD1_IN1, MD1_IN2}, // y-
 };
 constexpr int NUM_MOTOR_PINS = sizeof(MOTOR_PINS) / sizeof(MOTOR_PINS[0]);
 
@@ -73,12 +81,22 @@ int16_t solenoidCurrents[NUM_MOTOR_PINS] = {0};    // Array to store received in
 // ========================================================
 //                  DATA TRANSMISSION SETUP
 // ========================================================
-constexpr int BUFFER_SIZE = 5;                     // Number of samples to accumulate before sending
-constexpr int SAMPLES_PER_SENSOR = 3;              // Three values per sensor (X, Y, Z)
-constexpr int TOTAL_VALUES_PER_SAMPLE = 1 + SAMPLES_PER_SENSOR * NUM_SENSORS + NUM_MOTOR_PINS; // 1 for timestamp
 
-float buffer[BUFFER_SIZE][TOTAL_VALUES_PER_SAMPLE]; // Buffer to store sensor data
-int bufferIndex = 0;                                // Index to keep track of buffer position
+// Define byte sizes associated with specific data types
+constexpr int BYTES_PER_TIMESTAMP = sizeof(unsigned long);         // 4 bytes for timestamp
+constexpr int BYTES_PER_SENSOR_MEASUREMENT = sizeof(float);        // 4 bytes for each sensor measurement (float)
+constexpr int BYTES_PER_SOLENOID_CURRENT = sizeof(int16_t);        // 2 bytes for each solenoid current (int16_t)
+
+// Calculate the total bytes per sample
+constexpr int BUFFER_SIZE = 5;                                     // Number of samples to accumulate before sending
+constexpr int SAMPLES_PER_SENSOR = 3;                              // Three values per sensor (X, Y, Z)
+constexpr int TOTAL_BYTES_PER_SAMPLE = BYTES_PER_TIMESTAMP + 
+                                       (SAMPLES_PER_SENSOR * NUM_SENSORS * BYTES_PER_SENSOR_MEASUREMENT) + 
+                                       (NUM_MOTOR_PINS * BYTES_PER_SOLENOID_CURRENT);
+
+// Define the send buffer using the corrected size
+byte serialSendBuffer[BUFFER_SIZE][TOTAL_BYTES_PER_SAMPLE];        // Buffer to store data for sending
+int bufferIndex = 0;                                               // Index to keep track of buffer position
 
 // ========================================================
 //                       SETUP FUNCTION
@@ -206,18 +224,23 @@ void resetSolenoidCurrents() {
 
 // Updates the data buffer with the latest sensor readings and solenoid currents
 void updateDataBuffer(const float* sensorValues, const int16_t* currentSolenoidCurrents) {
-    int bufIdx = 0; // Start index for storing data in buffer
+    int bufIdx = 0; // Start index for storing data in serialSendBuffer
 
-    buffer[bufferIndex][bufIdx++] = (float) micros(); // Store timestamp
+    // Store timestamp as bytes
+    unsigned long timestamp = micros();
+    memcpy(&serialSendBuffer[bufferIndex][bufIdx], &timestamp, BYTES_PER_TIMESTAMP);
+    bufIdx += BYTES_PER_TIMESTAMP;
 
-    // Store sensor data
+    // Store sensor measurements as bytes
     for (int i = 0; i < SAMPLES_PER_SENSOR * NUM_SENSORS; i++) {
-        buffer[bufferIndex][bufIdx++] = sensorValues[i];
+        memcpy(&serialSendBuffer[bufferIndex][bufIdx], &sensorValues[i], BYTES_PER_SENSOR_MEASUREMENT);
+        bufIdx += BYTES_PER_SENSOR_MEASUREMENT;
     }
 
-    // Store the current solenoid currents (int16_t to float)
+    // Store solenoid currents as bytes
     for (int i = 0; i < NUM_MOTOR_PINS; i++) {
-        buffer[bufferIndex][bufIdx++] = static_cast<float>(currentSolenoidCurrents[i]);
+        memcpy(&serialSendBuffer[bufferIndex][bufIdx], &currentSolenoidCurrents[i], BYTES_PER_SOLENOID_CURRENT);
+        bufIdx += BYTES_PER_SOLENOID_CURRENT;
     }
 
     bufferIndex++; // Increment buffer index
@@ -231,10 +254,12 @@ void updateDataBuffer(const float* sensorValues, const int16_t* currentSolenoidC
 // Sends the buffered data over USB
 void sendDataBuffer() {
     if (isBufferReadyToSend) {
-        size_t bufferSizeInBytes = BUFFER_SIZE * TOTAL_VALUES_PER_SAMPLE * sizeof(float); // Calculate buffer size
+        // Correct calculation of the total buffer size in bytes
+        size_t bufferSizeInBytes = BUFFER_SIZE * TOTAL_BYTES_PER_SAMPLE;
 
-        Serial.write((byte*)buffer, bufferSizeInBytes); // Send buffer over USB
-        Serial.send_now(); // Ensure data is sent immediately
+        // Cast the 2D array to a 1D byte pointer and pass it to Serial.write
+        Serial.write(reinterpret_cast<const uint8_t*>(serialSendBuffer), bufferSizeInBytes); // Send the buffer over USB
+        Serial.send_now(); // Ensure the data is sent immediately
 
         isBufferReadyToSend = false; // Reset the flag
     }
@@ -250,10 +275,10 @@ int16_t mapFromUToPwm(int16_t u) {
 // Applies PWM to control the solenoids
 void analogWriteMotor(int pwm, int pin1, int pin2) {
     if (pwm > 0) {
-        analogWrite(pin1, pwm); // Apply PWM to forward pin
-        analogWrite(pin2, 0);   // Set reverse pin to 0
+        analogWrite(pin1, 0); // Apply PWM to forward pin
+        analogWrite(pin2, pwm);   // Set reverse pin to 0
     } else {
-        analogWrite(pin1, 0);   // Set forward pin to 0
-        analogWrite(pin2, -pwm); // Apply PWM to reverse pin
+        analogWrite(pin1, -pwm);   // Set forward pin to 0
+        analogWrite(pin2, 0); // Apply PWM to reverse pin
     }
 }

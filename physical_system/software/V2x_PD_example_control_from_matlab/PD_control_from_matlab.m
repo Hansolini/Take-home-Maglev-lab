@@ -19,6 +19,10 @@
 % - Run the script to start the control loop; use the stop button to terminate.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+%% TODO:
+% - Chekc if it is possible to induce rotation in simulation
+% - There is a bug where sometimes the filtered data becomes nan/inf
+ 
 clc; clear all; close all;
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -29,7 +33,7 @@ clc; clear all; close all;
 numSensors = 3;
 numSolenoids = 4;
 maxDataPoints = 500;
-enablePlotting = false;
+enablePlotting = true;
 
 % Create an instance of the TeensyComms class with specified configuration
 teensy = TeensyComms(numSensors, numSolenoids);
@@ -41,16 +45,24 @@ teensy = TeensyComms(numSensors, numSolenoids);
 desiredFrequency = 200;  % Desired loop frequency in Hz
 loopPeriod = 1 / desiredFrequency;  % Loop period in seconds
 
+tic;
+
 % Main control loop using tic and toc
 loopStart = tic;
 while ishandle(fig)  % Run loop while the figure is open
     loopTime = toc(loopStart);
 
     if loopTime >= loopPeriod
+        fprintf('%.f\n', 1/toc);
+        tic
+
         loopStart = tic;  % Reset the timer for the next loop
         loop(teensy, plotHandles, enablePlotting);  % Call the control loop function
     end
 end
+
+% Saving data from run
+[timestamps, sensorData,inputData] = teensy.getBufferedData();
 
 % Cleanup code
 delete(teensy);  % Calls the destructor to close the serial port
@@ -64,22 +76,22 @@ function loop(teensy, plotHandles, enablePlotting)
     %% Read Data
     % Receives data from Teensy
     [timestamps, sensorData, solenoidCurrents] = teensy.readData();
+
     if isempty(timestamps)
         return;  % Skip loop iteration if no data
     end
 
     %% Process data
-    if toc(teensy.startTime) < 3 % Computing mean measurements before starting control
+    if toc(teensy.startTime) < 2 % Computing mean measurements before starting control
         teensy.updateMeans(sensorData);
         unbiasedData = sensorData;
     else % Actual control loop
-
         % Remove bias in data
-        unbiasedData = sensorData - teensy.getMeanOutput() - 1.43/255 * [solenoidCurrents(:,[1,3]), zeros(length(timestamps), teensy.numSensors - 2)];
+        unbiasedData = sensorData - teensy.getMeanOutput() - 1.43/255*[solenoidCurrents(:,[1,3]), zeros(length(timestamps), teensy.numSensors - 2)];
         
         % Filter data
         [filteredData, dFilteredData] = filter(timestamps, unbiasedData);
-        
+
         % Compute control input
         controllerInput = controller(filteredData, dFilteredData, teensy.numSolenoids);
     
@@ -131,7 +143,7 @@ function [filteredData, dFilteredData] = filter(timestamps, data)
     % Filtering and differentiation
     for k = 2:size(data, 1)
         filteredData(k, :) = ALPHA * data(k, :) + (1 - ALPHA) * filteredData(k - 1, :);
-        dFilteredData(k, :) = DALPHA * (filteredData(k, :) - filteredData(k - 1, :)) / diff(timestamps(k - 1:k)) + ...
+        dFilteredData(k, :) = DALPHA * (filteredData(k, :) - filteredData(k - 1, :)) / diff(timestamps(k - 1:k) + 1e-4) + ...
                              (1 - DALPHA) * dFilteredData(k - 1, :);
     end
 
@@ -158,6 +170,15 @@ function controllerInput = controller(filteredData, dFilteredData, sizeInput)
 
     % Compute PD control input
     controllerInput = [ux, -ux, uy, -uy]';
+
+    if any(abs(controllerInput) == inf)
+        controllerInput = zeros(size(controllerInput));
+    end
+
+    if any(isnan(controllerInput))
+        controllerInput = zeros(size(controllerInput));
+    end
+
 
     if length(controllerInput) ~= sizeInput
         error('Controller output does not match size of system input.')
