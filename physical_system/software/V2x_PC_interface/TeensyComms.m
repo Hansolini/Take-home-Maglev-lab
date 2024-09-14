@@ -4,6 +4,7 @@ classdef TeensyComms < handle
         startTime
         numSensors
         numSolenoids
+        pwm_bit_size = 12;
     end
 
     properties (Access = protected)
@@ -158,7 +159,7 @@ classdef TeensyComms < handle
             % Ensure data is in int16 format and within the range [-255, 255]
             try
                 % Clamp the input data to the allowed range
-                clampedData = min(max(inputData, -255), 255);
+                clampedData = min(max(inputData, -0.29*2^obj.pwm_bit_size), 0.29*2^obj.pwm_bit_size); % 0.3 depends on the sensing resistor in the system motor drivers (max current)!
 
                 % Convert data to int16
                 data = typecast(int16(clampedData), 'uint8');
@@ -177,7 +178,7 @@ classdef TeensyComms < handle
                 sensorData = [];
                 solenoidCurrents = [];
             else
-                timeStamps = obj.dataBuffer(:, 1) / 1e6;  % Convert microseconds to seconds
+                timeStamps = obj.dataBuffer(:, 1);  % Convert microseconds to seconds
                 sensorData = obj.dataBuffer(:, 2:(1 + obj.numSensors));  % Extract sensor data
                 solenoidCurrents = obj.dataBuffer(:, (2 + obj.numSensors):end);  % Extract solenoid currents
             end

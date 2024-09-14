@@ -10,7 +10,6 @@ void setSolenoidCurrents(const int16_t* receivedData);
 void updateDataBuffer(const float* sensorValues, const int16_t* currentSolenoidCurrents);
 void sendDataBuffer();
 void analogWriteMotor(int pwm, int pin1, int pin2);
-int16_t mapFromUToPwm(int16_t u);
 void resetSolenoidCurrents();
 
 // ========================================================
@@ -29,7 +28,9 @@ Tle493d_a2b6 sensors[] = {
     // Tle493d_a2b6(Tle493d::FASTMODE, Tle493d::TLE493D_A2)
 };
 constexpr int NUM_SENSORS = sizeof(sensors) / sizeof(sensors[0]);
-constexpr int PWM_FREQUENCY = 32258;             // Frequency for PWM to avoid audible tones
+constexpr int PWM_FREQUENCY = 20000;//32226.56;             // Frequency for PWM to avoid audible tones
+constexpr int PWM_BIT_SIZE = 12;
+constexpr int PWM_MAX = pow(2,PWM_BIT_SIZE);
 
 // ========================================================
 //                    SOLENOID CONFIGURATION
@@ -114,7 +115,7 @@ void setup() {
     Wire.setClock(3400000);
 
     // Initialize motor drivers
-    analogWriteResolution(8);
+    analogWriteResolution(PWM_BIT_SIZE);
 
     for (int i = 0; i < NUM_MOTOR_PINS; i++) {
         pinMode(MOTOR_PINS[i][0], OUTPUT);
@@ -211,8 +212,7 @@ void readSensorData(float* sensorValues) {
 void setSolenoidCurrents(const int16_t* receivedData) {
     for (int i = 0; i < NUM_MOTOR_PINS; i++) {
         solenoidCurrents[i] = receivedData[i];  // Store received current values
-        int16_t pwm = mapFromUToPwm(solenoidCurrents[i]); // Map current to PWM value
-        analogWriteMotor(pwm, MOTOR_PINS[i][0], MOTOR_PINS[i][1]); // Apply PWM
+        analogWriteMotor(solenoidCurrents[i], MOTOR_PINS[i][0], MOTOR_PINS[i][1]); // Apply PWM
     }
 }
 
@@ -265,20 +265,16 @@ void sendDataBuffer() {
     }
 }
 
-// Maps received current values to PWM signals
-int16_t mapFromUToPwm(int16_t u) {
-    constexpr double SCALE = (165.0 - 135.0) / 255.0; // Scaling factor for PWM
-    constexpr double OFFSET = 135.0; // Offset value for PWM
-    return round(SCALE * abs(u) + OFFSET) * (u >= 0 ? 1 : -1); // Map current to PWM
-}
-
-// Applies PWM to control the solenoids
+// Applies PWM to control the solenoids  (This sets solenoids using slow decay mode: https://forum.allaboutcircuits.com/threads/strange-full-h-bridge-problem.161122/)
 void analogWriteMotor(int pwm, int pin1, int pin2) {
     if (pwm > 0) {
-        analogWrite(pin1, 0); // Apply PWM to forward pin
-        analogWrite(pin2, pwm);   // Set reverse pin to 0
+        analogWrite(pin1, PWM_MAX-pwm);
+        analogWrite(pin2, PWM_MAX);
+    } else if (pwm < 0) {
+        analogWrite(pin1, PWM_MAX);
+        analogWrite(pin2, PWM_MAX+pwm);
     } else {
-        analogWrite(pin1, -pwm);   // Set forward pin to 0
-        analogWrite(pin2, 0); // Apply PWM to reverse pin
+        analogWrite(pin1, 0);
+        analogWrite(pin2, 0);
     }
 }
