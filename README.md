@@ -39,4 +39,6 @@ Following is information on student reports and hardware development history.
 | V2.5        | JH Technical AS | Fix minor bugs, improve heating and components | \:white_check_mark\: | Stable levitation >> 2 min              |
 | V2.6        | A. Morselli   | Fix faulty wiring, changing sensors    | \:white_check_mark\:             |  Stable levitation >> 30 min                           |
 | V2.7        | A. Morselli   | Modular design and testbench for V3.0    | \:white_check_mark\:             |                      |
-| V3.0        | A. Morselli   | Modular redesign for first 'Take-home lab'     | \:hammer\:           |                            |
+| V3.0        | A. Morselli   | Modular redesign for first 'Take-home lab'     | \:white_check_mark\:           |                            |
+| V3.1        | M. Leroux   | Adding USB-C power     | \:hammer\:           |                            |
+| V4.0        | M. Leroux   | New form factor and additional sensing for improved stability      | \:hammer\:           |                            |
