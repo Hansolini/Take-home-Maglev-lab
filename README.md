@@ -16,7 +16,7 @@
 </table>
 
 <div style="text-align: justify;">
-The "Take-home Maglev lab" is a small lab in development at the Norwegian University of Science and Technology (NTNU) tailored to students in control and related fields. It is intended as a kit that students can bring home and assemble independently, with additional lab assignments for teaching anything from fundamental to advanced concepts within control engineering.
+The "Take-home Maglev lab" is a small lab in development at the Norwegian University of Science and Technology (NTNU) tailored to students in control and related fields. It is intended as a kit that students can bring home and assemble independently, with additional lab assignments for teaching anything from fundamental to advanced concepts within control engineering. sad sa
 </div>
 
 See [the wiki](https://www.ntnu.no/wiki/x/OYSyEw) for more information on the project.
