@@ -2,8 +2,8 @@
 #include <Wire.h>
 
 // IIR filter constants
-#define ALPHA 0.06
-#define DALPHA 0.03
+#define ALPHA 0.15
+#define DALPHA 0.02
 
 // Sample timer
 const double f_s = 5000; // Hz
@@ -46,14 +46,17 @@ double dbx_prev = 0, dby_prev = 0, dbz_prev = 0;
 float meanBx = 0, meanBy = 0, meanBz = 0;
 
 // PID
-double Kp = 450, Kd = 2;
+// double Kp = 150, Kd = 0.8; // Heavy magnet
+double Kp = 300, Kd = 0.8; // Light magnet
 double ux = 0, uy = 0;
 double ex = 0, ey = 0;
 double dex = 0, dey = 0;
 
+// Deadband threshold
+const double deadband_threshold = 0.0; // Adjust as needed
+
 void setup() {
   Serial.begin(115200);
-  // while(!Serial);
   Serial.println("Initialization...");
 
   // Initialize sensor
@@ -62,7 +65,7 @@ void setup() {
   // Initialize motor drivers
   analogWriteResolution(8);
 
-  //// Set pin mode
+  // Set pin mode
   pinMode(MD1_IN1, OUTPUT);
   pinMode(MD1_IN2, OUTPUT);
 
@@ -88,22 +91,19 @@ void setup() {
   analogWriteFrequency(MD4_IN1, 32258);
   analogWriteFrequency(MD4_IN2, 32258);
 
-  //// Start with motor drivers off
+  // Start with motor drivers off
   digitalWrite(MD1_IN1, LOW);
   digitalWrite(MD1_IN2, LOW);
-  
   digitalWrite(MD2_IN1, LOW);
   digitalWrite(MD2_IN2, LOW);
-  
   digitalWrite(MD3_IN1, LOW);
   digitalWrite(MD3_IN2, LOW);
-
   digitalWrite(MD4_IN1, LOW);
   digitalWrite(MD4_IN2, LOW);
 
-  // We adjust the I2C clock speed to reach maximum sample time (5.2kHz). This HAS to be done after initializing the sensors!
+  // Set I2C frequency to 1MHz
   Wire.begin();
-  Wire.setClock(1000000); // Set I2C frequency to 400kHz
+  Wire.setClock(1000000); // Set I2C frequency to 1MHz
 
   // Compute sensor mean
   while(initCounter < 1000) {
@@ -112,11 +112,9 @@ void setup() {
     meanBx += Sensor.getX()/1000;
     meanBy += Sensor.getY()/1000;
     meanBz += Sensor.getZ()/1000;
-    
     initCounter++;
   }
 }
-
 
 int map_from_u_to_pwm(int u){
   double a = (165.0 - 135.0)/255.0;
@@ -166,58 +164,68 @@ void change_input(int ux, int uy){
   }
 }
 
-
 void loop() {
   if(micros() - prev_time >= T){
     current_time = micros();
-      // Get measurement      
-      Sensor.updateData();
-      rawBx = Sensor.getX() - meanBx - 1.43/255*ux; // Compensate for bias by permanent and electromagnets
-      rawBy = Sensor.getY() - meanBy - 1.43/255*uy;
-      rawBz = Sensor.getZ() - meanBz;
+    
+    // Get measurement      
+    Sensor.updateData();
+    rawBx = Sensor.getX() - 0.99 *meanBx - 1.55/255*ux;// Compensate for bias by permanent and electromagnets
+    rawBy = Sensor.getY() - 0.99*meanBy - 1.66/255*uy;
+    rawBz = Sensor.getZ() - meanBz;
 
-      bx = ALPHA * rawBx + (1.0 - ALPHA) * bx_prev;
-      by = ALPHA * rawBy + (1.0 - ALPHA) * by_prev;
-      bz = ALPHA * rawBz + (1.0 - ALPHA) * bz_prev;
+    bx = ALPHA * rawBx + (1.0 - ALPHA) * bx_prev;
+    by = ALPHA * rawBy + (1.0 - ALPHA) * by_prev;
+    bz = ALPHA * rawBz + (1.0 - ALPHA) * bz_prev;
 
-      dbx = DALPHA * ((bx - bx_prev)/((current_time - prev_time + 10)/1000000.0)) + (1.0 - DALPHA) * dbx_prev;
-      dby = DALPHA * ((by - by_prev)/((current_time - prev_time + 10)/1000000.0)) + (1.0 - DALPHA) * dby_prev;
+    dbx = DALPHA * ((bx - bx_prev)/((current_time - prev_time + 10)/1000000.0)) + (1.0 - DALPHA) * dbx_prev;
+    dby = DALPHA * ((by - by_prev)/((current_time - prev_time + 10)/1000000.0)) + (1.0 - DALPHA) * dby_prev;
 
-      bx_prev = bx;
-      by_prev = by;
-      bz_prev = bz;
-      
-      dbx_prev = dbx;
-      dby_prev = dby;
+    bx_prev = bx;
+    by_prev = by;
+    bz_prev = bz;
+    
+    dbx_prev = dbx;
+    dby_prev = dby;
 
-      if(abs(bz) > 3){
-        ex = -bx;
-        ey = -by;
+    if(abs(bz) > 3){
+      ex = -bx;
+      ey = -by;
 
-        dex = -dbx;
-        dey = -dby;
+      dex = -dbx;
+      dey = -dby;
 
-        ux = constrain(Kp*ex + Kd*dex, -255, 255);
-        uy = constrain(Kp*ey + Kd*dey, -255, 255);
+      ux = constrain(Kp*ex + Kd*dex, -255, 255);
+      uy = constrain(Kp*ey + Kd*dey, -255, 255);
+
+      // Implementing deadband
+      if(abs(ex) < deadband_threshold) ux = 0;
+      if(abs(ey) < deadband_threshold) uy = 0;
+
+
+      change_input(ux, uy);
+    }
+    else{
+        ux = 0;
+        uy = 0;
         change_input(ux, uy);
-      }
-      else{
-          ux = 0;
-          uy = 0;
-          change_input(ux, uy);
-      }
+    }
 
-      if( loopCounter % 100 == 0){
-        Serial.print(bx);
-        Serial.print(',');
-        Serial.print(by);
-        Serial.print(',');
-        Serial.print(bz);
-        Serial.print(',');
-        Serial.print(ux);
-        Serial.print(',');
-        Serial.println(uy);
-      }
+    if(loopCounter % 100 == 0){
+      Serial.print("Error_x:");
+      Serial.print(ex);
+      Serial.print(',');
+      Serial.print("Error_y:");
+      Serial.print(ey);
+      Serial.print(',');
+      Serial.print("Error_dx:");
+      Serial.print(dex);
+      Serial.print(',');
+      Serial.print("Error_dy:");
+      Serial.print(dey);
+      Serial.print(',');
+      Serial.println(uy);
+    }
     loopCounter++;
 
     prev_time = current_time;
