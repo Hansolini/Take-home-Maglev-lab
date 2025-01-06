@@ -80,7 +80,7 @@ provides the magnet's position. However, the addition of these extra sensors exp
 for magnetic field detection on the board, paving the way for advanced measurement and control 
 applications.   
 
-| ![Sensors on Maggy4.0](maggy40_sensors.png) | ![I2C Multiplexer](maggy40_mux_sensors.png) |  
+| ![Sensors on Maggy4.0](./Images/maggy40_sensors.png) | ![I2C Multiplexer](./Images/maggy40_mux_sensors.png) |  
 |:-------------------------------------------:|:------------------------------------------:|  
 | _Figure 5: Sensors on Maggy 4.0_            | _Figure 6: I2C Multiplexer_                |  
 
@@ -193,7 +193,7 @@ Maggy 4.0 introduces three new connectors:
 2. **CN2**: Connects motor driver outputs to power solenoids externally.  
 3. **U6**: Enables I2C communication between the Teensy and external devices.  
 
-| ![CN1 and CN2](maggy40_connectors1.png) | ![U6 Connector](maggy40_connectors2.png) |  
+| ![CN1 and CN2](./Images/maggy40_connectors1.png) | ![U6 Connector](./Images/maggy40_connectors2.png) |  
 |:---------------------------------------:|:---------------------------------------:|  
 | _Figure 13: CN1 and CN2 Connectors_     | _Figure 14: U6 Connector_               |  
 
