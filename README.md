@@ -1,7 +1,7 @@
 # Take-home Maglev lab \:magnet\:
 
 <div align="center" style="gap: 50px">
-    <img src="./media/images_and_illustrations/maggy_20_levitating.jpg" alt="First Image" width="300" style="margin-bottom: 10px;"/>
+    <img src="./media/images_and_illustrations/maggy_30_levitating.jpg" alt="First Image" width="300" style="margin-bottom: 10px;"/>
     <img src="./media/images_and_illustrations/maglev_system_illustration.jpg" alt="Second Image" width="300" style="margin-bottom: 10px;"/>
 </div>
 
@@ -29,16 +29,16 @@ Following is information on student reports and hardware development history.
 5. [P. I. D. K. Fosmo, "Control of a magnetic levitation system using feedback linearization", Project thesis, ITK, NTNU, Trondheim, 2023.](./student_contributions/literature/2023_NTNU_project_thesis_pål_fosmo.pdf)
 6. [S. A. Senkaya, "A take home portable MagLev lab for learning electronics and control", Project thesis, ITK, NTNU, Trondheim, 2023.](./student_contributions/literature/2023_NTNU_project_thesis_sacit_ali_senkaya.pdf)
 ### 2024
-1. P. I. D. K. Fosmo, S. A. Senkaya, S. Graffer, H. A. Engmark, D. Varagnolo, "Maggy: Hands-on control learning with a maglev system", M.S. thesis, ITK, NTNU, Trondheim, 2024.
-2. P. I. D. K. Fosmo, H. A. Engmark, D. Varagnolo, "Maglev Systems for Control Education", Maglev24, Malmö, 2024.
+1. [P. I. D. K. Fosmo, S. A. Senkaya, S. Graffer, H. A. Engmark, D. Varagnolo, "Maggy: Hands-on control learning with a maglev system", M.S. thesis, ITK, NTNU, Trondheim, 2024.](https://bth.diva-portal.org/smash/get/diva2:1918096/FULLTEXT01.pdf)
+2. [P. I. D. K. Fosmo, H. A. Engmark, D. Varagnolo, "Maglev Systems for Control Education", Maglev24, Malmö, 2024.](https://ntnuopen.ntnu.no/ntnu-xmlui/handle/11250/3153592)
 ## Version history \:rocket\:
-| **Version** | **Developer** | **Goal**                                       | **Status**           | **Result**                 |
-|---------|-----------|--------------------------------------------|:----------------:|------------------------|
-| V1.0        | M. Brønstad <br> J. O. Deila <br> J. Dyrskog <br> M. Langklopp          | Leviation                                      | \:white_check_mark\: | Stable levitation ~ 2 min  |
-| V2.0        | M. Brønstad <br> J. O. Deila <br> J. Dyrskog            | Smaller form factor, more robust               | \:white_check_mark\: | Stable levitation >> 2 min |
-| V2.5        | JH Technical AS | Fix minor bugs, improve heating and components | \:white_check_mark\: | Stable levitation >> 2 min              |
-| V2.6        | A. Morselli   | Fix faulty wiring, changing sensors    | \:white_check_mark\:             |  Stable levitation >> 30 min                           |
-| V2.7        | A. Morselli   | Modular design and testbench for V3.0    | \:white_check_mark\:             |                      |
-| V3.0        | A. Morselli   | Modular redesign for first 'Take-home lab'     | \:white_check_mark\:           |                            |
-| V3.1        | M. Leroux   | Adding USB-C power     | \:hammer\:           |                            |
-| V4.0        | M. Leroux   | New form factor and additional sensing for improved stability      | \:hammer\:           |                            |
+| **Version** | **Developer**                                                  | **Goal**                                                      | **Development period** |      **Status**      | **Result**                  |
+| ----------- | -------------------------------------------------------------- | ------------------------------------------------------------- | ---------------------- | :------------------: | --------------------------- |
+| V1.0        | M. Brønstad <br> J. O. Deila <br> J. Dyrskog <br> M. Langklopp | Leviation                                                     | Spring 2022            | \:white_check_mark\: | Stable levitation ~ 2 min   |
+| V2.0        | M. Brønstad <br> J. O. Deila <br> J. Dyrskog                   | Smaller form factor, more robust                              | Summer 2022            | \:white_check_mark\: | Stable levitation >> 2 min  |
+| V2.5        | JH Technical AS                                                | Fix minor bugs, improve heating and components                | Spring 2024            | \:white_check_mark\: | Stable levitation >> 2 min  |
+| V2.6        | A. Morselli                                                    | Fix faulty wiring, changing sensors                           | Spring 2024            | \:white_check_mark\: | Stable levitation >> 30 min |
+| V2.7        | A. Morselli                                                    | Modular design and testbench for V3.0                         | Spring 2024            | \:white_check_mark\: | Decisions on design         |
+| V3.0        | A. Morselli                                                    | Modular redesign for first 'Take-home lab'                    | Summer 2024            | \:white_check_mark\: | Decisions on design         |
+| V3.1        | M. Leroux                                                      | Adding USB-C power                                            | Fall 2024              | \:white_check_mark\: | Improved power delivery     |
+| V4.0        | M. Leroux                                                      | New form factor and additional sensing for improved stability | Fall 2024              | \:white_check_mark\: | Improved control            |
