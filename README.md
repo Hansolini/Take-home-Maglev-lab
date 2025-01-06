@@ -3,18 +3,17 @@
 <table>
   <tr>
     <td align="center">
-      <img src="./media/images_and_illustrations/maggy_30_levitating.jpg" alt="Maggy 30 Levitating" width="300">
+      <img src="./media/images_and_illustrations/maggy_30_levitating.jpg" alt="Maggy 30 Levitating" width="400">
       <br>
-      Figure 1: Maggy 30 Levitating
+      1) Version 2.6 of the lab.
     </td>
     <td align="center">
-      <img src="./media/images_and_illustrations/maglev_system_illustration.jpg" alt="Maglev System Illustration" width="300">
+      <img src="./media/images_and_illustrations/maglev_system_illustration.jpg" alt="Maglev System Illustration" width="400">
       <br>
-      Figure 2: Maglev System Illustration
+      2) Illustration of the system.
     </td>
   </tr>
 </table>
-
 
 The "Take-home Maglev lab" is a small lab in development at the Norwegian University of Science and Technology (NTNU) tailored to students in control and related fields. It is intended as a kit that students can bring home and assemble independently, with additional lab assignments for teaching anything from fundamental to advanced concepts within control engineering.
 
