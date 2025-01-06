@@ -1,14 +1,14 @@
 # Take-home Maglev lab \:magnet\:
 
-<table style="width: 100%; text-align: center;">
+<table>
   <tr>
-    <td style="vertical-align: middle; text-align: center;">
-      <img src="./media/images_and_illustrations/maggy_30_levitating.jpg" alt="Maggy 30 Levitating" width="400">
+    <td align="center" width="50%">
+      <img src="./media/images_and_illustrations/maggy_30_levitating.jpg" alt="Maggy 30 Levitating" width="300">
       <br>
       1) Version 2.6 of the lab.
     </td>
-    <td style="vertical-align: middle; text-align: center;">
-      <img src="./media/images_and_illustrations/maglev_system_illustration.jpg" alt="Maglev System Illustration" width="400">
+    <td align="center" width="50%">
+      <img src="./media/images_and_illustrations/maglev_system_illustration.jpg" alt="Maglev System Illustration" width="300">
       <br>
       2) Illustration of the system.
     </td>
