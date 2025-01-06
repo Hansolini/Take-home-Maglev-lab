@@ -52,12 +52,6 @@ double dbx_prev = 0, dby_prev = 0, dbz_prev = 0;
 // Mean of measurements
 float meanBx = 0, meanBy = 0, meanBz = 0;
 
-// PID
-double Kp = 550, Kd = 3.5;
-double ux = 0, uy = 0;
-double ex = 0, ey = 0;
-double dex = 0, dey = 0;
-
 void setup() {
   Serial.begin(115200);
   // while(!Serial);
@@ -131,8 +125,8 @@ void loop() {
     current_time = micros();
       // Get measurement      
       Sensor.updateData();
-      rawBx = Sensor.getX() - meanBx - 1.9/255*ux; // Compensate for bias by permanent and electromagnets
-      rawBy = Sensor.getY() - meanBy - 1.9/255*uy;
+      rawBx = Sensor.getX() - meanBx - 1.85/255*ux; // Compensate for bias by permanent and electromagnets
+      rawBy = Sensor.getY() - meanBy - 1.85/255*uy;
       rawBz = Sensor.getZ() - meanBz;
 
       bx = ALPHA * rawBx + (1.0 - ALPHA) * bx_prev;
@@ -149,61 +143,69 @@ void loop() {
       dbx_prev = dbx;
       dby_prev = dby;
 
-      if(current_time - prev_time_switch > 2000000){
-        if(solenoid_index == 0){
-          ux = 255;
-          uy = 0;
-
-        }
-        if(solenoid_index == 1){
-          ux = 0;
-          uy = 255;
-        }
-        if(solenoid_index == 2){
-          ux = -255;
-          uy = 0;
-        }
-        if(solenoid_index == 3){
-          ux = 0;
-          uy = -255;
-        }
-        
+      if(current_time - prev_time_switch > 2000000){        
         solenoid_index = solenoid_index + 1;
-        if(solenoid_index == 4){
+        if(solenoid_index == 13){
           solenoid_index = 0;
         }
 
         prev_time_switch = current_time;
       }
 
-      if(ux < 0){
-        analogWrite(MD3_IN1, 0);
-        analogWrite(MD3_IN2, abs(ux));
-
-        analogWrite(MD2_IN1, abs(ux));
-        analogWrite(MD2_IN2, 0);
-      }
-      else{
-        analogWrite(MD3_IN1, abs(ux));
-        analogWrite(MD3_IN2, 0);
-
-        analogWrite(MD2_IN1, 0);
-        analogWrite(MD2_IN2, abs(ux));
-      }
-
-      if(uy < 0){
+  if (solenoid_index == 0){
         analogWrite(MD1_IN1, 0);
-        analogWrite(MD1_IN2, abs(uy));
-        
-        analogWrite(MD4_IN1, abs(uy));
-        analogWrite(MD4_IN2, 0);
-      }
-      else{
-        analogWrite(MD1_IN1, abs(uy));
         analogWrite(MD1_IN2, 0);
-        
+  
+        analogWrite(MD2_IN1, 0);
+        analogWrite(MD2_IN2, 0);
+  
+        analogWrite(MD3_IN1, 0);
+        analogWrite(MD3_IN2, 0);
+  
         analogWrite(MD4_IN1, 0);
-        analogWrite(MD4_IN2, abs(uy));
+        analogWrite(MD4_IN2, 0);
+      
+      } else if (solenoid_index == 1){ // M1
+        analogWrite(MD1_IN1, 255);
+        analogWrite(MD1_IN2, 0);
+      } else if (solenoid_index == 2){
+        analogWrite(MD1_IN1, 0);
+        analogWrite(MD1_IN2, 255);
+      } else if (solenoid_index == 3){
+        analogWrite(MD1_IN1, 0);
+        analogWrite(MD1_IN2, 0);
+  
+      } else if (solenoid_index == 4){ // M2
+        analogWrite(MD2_IN1, 255);
+        analogWrite(MD2_IN2, 0);
+      } else if (solenoid_index == 5){
+        analogWrite(MD2_IN1, 0);
+        analogWrite(MD2_IN2, 255);
+      } else if (solenoid_index == 6){
+        analogWrite(MD2_IN1, 0);
+        analogWrite(MD2_IN2, 0);
+    
+  
+      } else if (solenoid_index == 7){ // M3
+        analogWrite(MD3_IN1, 255);
+        analogWrite(MD3_IN2, 0);
+      } else if (solenoid_index == 8){
+        analogWrite(MD3_IN1, 0);
+        analogWrite(MD3_IN2, 255);
+      } else if (solenoid_index == 9){
+        analogWrite(MD3_IN1, 0);
+        analogWrite(MD3_IN2, 0);
+    
+  
+      } else if (solenoid_index == 10){ // M4
+        analogWrite(MD4_IN1, 255);
+        analogWrite(MD4_IN2, 0);
+      } else if (solenoid_index == 11){
+        analogWrite(MD4_IN1, 0);
+        analogWrite(MD4_IN2, 255);
+      } else if (solenoid_index == 12){
+        analogWrite(MD4_IN1, 0);
+        analogWrite(MD4_IN2, 0);
       }
 
       if( loopCounter % 300 == 0){
@@ -213,9 +215,7 @@ void loop() {
         Serial.print(',');
         Serial.print(bz);
         Serial.print(',');
-        Serial.print(ux/255*0.05);
-        Serial.print(',');
-        Serial.println(uy/255*0.05);
+        Serial.println(solenoid_index);
       }
     loopCounter++;
 
