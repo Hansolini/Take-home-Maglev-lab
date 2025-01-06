@@ -39,12 +39,12 @@ You can join the project on EasyEDA to explore the board design:
 
 
 <p align="center">  
-  <img src="maggy40_3D_top.png" alt="Maggy4.0 Top Side" />  
+  <img src="./Images/maggy40_3D_top.png" alt="Maggy4.0 Top Side" />  
   <br><em>Figure 1: Maggy 4.0 Top Side</em>  
 </p>  
 
 <p align="center">  
-  <img src="maggy40_3D_bot.png" alt="Maggy4.0 Bottom Side" />  
+  <img src="./Images/maggy40_3D_bot.png" alt="Maggy4.0 Bottom Side" />  
   <br><em>Figure 2: Maggy 4.0 Bottom Side</em>  
 </p> 
 
@@ -57,12 +57,12 @@ The **Teensy 4.1** microcontroller powers Maggy 4.0, offering high performance a
 With numerous I/O pins, the Teensy can manage current measurements, process analog signals, and integrate external devices, making it highly versatile for advanced projects.  
 
 <p align="center">  
-  <img src="Teensy_pinout.png" alt="Teensy Pinout Diagram" />  
+  <img src="./Images/Teensy_pinout.png" alt="Teensy Pinout Diagram" />  
   <br><em>Figure 3: Teensy 4.1 Pinout Diagram</em>  
 </p>  
 
 <p align="center">  
-  <img src="maggy40_teensy.png" alt="Teensy on Maggy4.0" />  
+  <img src="./Images/maggy40_teensy.png" alt="Teensy on Maggy4.0" />  
   <br><em>Figure 4: Teensy 4.1 Mounted on Maggy 4.0</em>  
 </p>  
 
@@ -96,7 +96,7 @@ solenoid. The formula for calculating the appropriate resistor value can be foun
 datasheet. 
 
 <p align="center">  
-  <img src="maggy40_pwm.png" alt="Motor Drivers Schematic" />  
+  <img src="./Images/maggy40_pwm.png" alt="Motor Drivers Schematic" />  
   <br><em>Figure 7: Motor Drivers on Maggy 4.0</em>  
 </p>  
 
@@ -113,7 +113,7 @@ The solenoids can be placed on both sides of the board and are connected to the 
 blocks located on the top side. 
 
 <p align="center">  
-  <img src="maggy40_terminals_blocks.png" alt="Terminal Blocks" />  
+  <img src="./Images/maggy40_terminals_blocks.png" alt="Terminal Blocks" />  
   <br><em>Figure 8: Solenoid Terminal Blocks on Maggy 4.0</em>  
 </p>  
 
@@ -139,13 +139,13 @@ integrated circuit will negotiate the highest possible voltage lower than 12V th
 In many cases, this will be 9V, which is a common voltage for smartphone charging. 
 
 <p align="center">  
-  <img src="maggy40_power_supply.png" alt="Maggy Power Supply Schematic" />  
+  <img src="./Images/maggy40_power_supply.png" alt="Maggy Power Supply Schematic" />  
   <br><em>Figure 9: Maggy 4.0 Power Supply Schematic</em>  
 </p>  
 
 
 <p align="center">  
-  <img src="maggy40_regulators.png" alt="Maggy Regulators Schematic" />  
+  <img src="./Images/maggy40_regulators.png" alt="Maggy Regulators Schematic" />  
   <br><em>Figure 10: Maggy 4.0 Voltage Regulators</em>  
 </p>  
 
@@ -169,7 +169,7 @@ will help us better understand their charging and discharging process while moni
 power consumption and heating. 
 
 <p align="center">  
-  <img src="maggy40_current_measurement.png" alt="Current Measurement Schematic" />  
+  <img src="./Images/maggy40_current_measurement.png" alt="Current Measurement Schematic" />  
   <br><em>Figure 11: Maggy 4.0 Current Measurement Schematic</em>  
 </p>  
 
@@ -179,7 +179,7 @@ to operate in bidirectional mode. To generate this reference voltage, we use a v
 a high impedance on the VREF pin, which could affect the measurement stability.
 
 <p align="center">  
-  <img src="maggy40_vref_ina.png" alt="VREF INA213 Schematic" />  
+  <img src="./Images/maggy40_vref_ina.png" alt="VREF INA213 Schematic" />  
   <br><em>Figure 12: VREF Circuit for INA213</em>  
 </p>  
 
