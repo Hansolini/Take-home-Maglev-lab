@@ -8,8 +8,8 @@ constexpr float DIRECT_FEEDTHROUGH_SLOPE_Y_POSITIVE = 0;
 constexpr float DIRECT_FEEDTHROUGH_SLOPE_Y_NEGATIVE = 0;
 
 // === PD Controller Gains ===
-constexpr float Kp = 300.0;  // Proportional gain
-constexpr float Kd = 0.5;   // Derivative gain
+constexpr float Kp = 240.0;  // Proportional gain
+constexpr float Kd = 0.05;   // Derivative gain
 
 // === Filter Constants ===
 constexpr float ALPHA = 0.18;    // Filter for magnetic field
