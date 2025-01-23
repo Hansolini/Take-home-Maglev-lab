@@ -37,8 +37,8 @@ Following is information on student reports and hardware development history.
 5. [P. I. D. K. Fosmo, "Control of a magnetic levitation system using feedback linearization", Project thesis, ITK, NTNU, Trondheim, 2023.](./student_contributions/literature/2023_NTNU_project_thesis_pål_fosmo.pdf)
 6. [S. A. Senkaya, "A take home portable MagLev lab for learning electronics and control", Project thesis, ITK, NTNU, Trondheim, 2023.](./student_contributions/literature/2023_NTNU_project_thesis_sacit_ali_senkaya.pdf)
 ### 2024
-1. [P. I. D. K. Fosmo, S. A. Senkaya, S. Graffer, H. A. Engmark, D. Varagnolo, "Maggy: Hands-on control learning with a maglev system", M.S. thesis, ITK, NTNU, Trondheim, 2024.](https://bth.diva-portal.org/smash/get/diva2:1918096/FULLTEXT01.pdf)
-2. [P. I. D. K. Fosmo, H. A. Engmark, D. Varagnolo, "Maglev Systems for Control Education", Maglev24, Malmö, 2024.](https://ntnuopen.ntnu.no/ntnu-xmlui/handle/11250/3153592)
+1. [P. I. D. K. Fosmo, S. A. Senkaya, S. Graffer, H. A. Engmark, D. Varagnolo, "Maggy: Hands-on control learning with a maglev system", M.S. thesis, ITK, NTNU, Trondheim, 2024.](https://ntnuopen.ntnu.no/ntnu-xmlui/handle/11250/3153592)
+2. [P. I. D. K. Fosmo, H. A. Engmark, D. Varagnolo, "Maglev Systems for Control Education", Maglev24, Malmö, 2024.](https://bth.diva-portal.org/smash/get/diva2:1918096/FULLTEXT01.pdf)
 3. [A. Dal Bello, "Tracking Visual Markers For Maglev Platforms", B.S. thesis, DSMN, UNIVE, Venezia, 2024.](./student_contributions/literature/2024_UNIVE_bachelor_thesis_alessandra_dal_bello.pdf)
 4. [G. D'Auria, "Computer based state observers for magnet systems", B.S. thesis, DEI, UNIPD, Padova, 2024.](./student_contributions/literature/2024_UNIPD_bachelor_thesis_giuseppe_d'auria.pdf)
 
