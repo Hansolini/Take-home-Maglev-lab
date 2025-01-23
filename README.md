@@ -42,7 +42,7 @@ Following is information on student reports and hardware development history.
 3. [A. Dal Bello, "Tracking Visual Markers For Maglev Platforms", B.S. thesis, DSMN, UNIVE, Venezia, 2024.](./student_contributions/literature/2024_UNIVE_bachelor_thesis_alessandra_dal_bello.pdf)
 4. [G. D'Auria, "Computer based state observers for magnet systems", B.S. thesis, DEI, UNIPD, Padova, 2024.](./student_contributions/literature/2024_UNIPD_bachelor_thesis_giuseppe_d'auria.pdf)
 
-## Version history \:rocket\:
+## Development history \:rocket\:
 | **Version** | **Developer**                                                  | **Goal**                                                      | **Development period** |      **Status**      | **Result**                  |
 | ----------- | -------------------------------------------------------------- | ------------------------------------------------------------- | ---------------------- | :------------------: | --------------------------- |
 | V1.0        | M. Brønstad <br> J. O. Deila <br> J. Dyrskog <br> M. Langklopp | Leviation                                                     | Spring 2022            | \:white_check_mark\: | Stable levitation ~ 2 min   |
