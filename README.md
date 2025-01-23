@@ -39,8 +39,8 @@ Following is information on student reports and hardware development history.
 ### 2024
 1. [P. I. D. K. Fosmo, S. A. Senkaya, S. Graffer, H. A. Engmark, D. Varagnolo, "Maggy: Hands-on control learning with a maglev system", M.S. thesis, ITK, NTNU, Trondheim, 2024.](https://bth.diva-portal.org/smash/get/diva2:1918096/FULLTEXT01.pdf)
 2. [P. I. D. K. Fosmo, H. A. Engmark, D. Varagnolo, "Maglev Systems for Control Education", Maglev24, Malmö, 2024.](https://ntnuopen.ntnu.no/ntnu-xmlui/handle/11250/3153592)
-3. [A. Dal Bello, "Tracking Visual Markers For Maglev Platforms", B.S. thesis, DDD, UNIVE, Venezia, 2024.](./student_contributions/literature/2024_UNIVE_bachelor_thesis_alessandra_dal_bello.pdf)
-4. [G. D'Auria, "Computer based state observers for magnet systems", B.S. thesis, DDD, UNIPD, Padova, 2024.](https://thesis.unipd.it/handle/20.500.12608/76836)
+3. [A. Dal Bello, "Tracking Visual Markers For Maglev Platforms", B.S. thesis, DSMN, UNIVE, Venezia, 2024.](./student_contributions/literature/2024_UNIVE_bachelor_thesis_alessandra_dal_bello.pdf)
+4. [G. D'Auria, "Computer based state observers for magnet systems", B.S. thesis, DEI, UNIPD, Padova, 2024.](https://thesis.unipd.it/handle/20.500.12608/76836)
 
 ## Version history \:rocket\:
 | **Version** | **Developer**                                                  | **Goal**                                                      | **Development period** |      **Status**      | **Result**                  |
