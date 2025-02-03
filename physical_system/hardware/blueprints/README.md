@@ -35,4 +35,4 @@ Screws, spacers and nuts are all standard 3 mm machine screws that should be ava
 - [M3 spacer, 15mm, male-female](https://www.digikey.no/no/products/detail/w%C3%BCrth-elektronik/971150354/9488642)
 - [M3 spacer, 15mm, female-female](https://www.digikey.no/no/products/detail/w%C3%BCrth-elektronik/970150354/9488567)
 
-Also consider that you might need (USB cables)[https://www.digikey.no/no/products/detail/cvilux-usa/DH-20M50057/13177527] for connecting to a computer, some antistatic insulation and cardboard boxes for storage, and laser cut protective plates/boxes for protection (we have used 3 mm acrylic plates, cut with blueprints found in the folders).
+Also consider that you might need [USB cables](https://www.digikey.no/no/products/detail/cvilux-usa/DH-20M50057/13177527) for connecting to a computer, some antistatic insulation and cardboard boxes for storage, and laser cut protective plates/boxes for protection (we have used 3 mm acrylic plates, cut with blueprints found in the folders).
