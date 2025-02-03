@@ -12,6 +12,8 @@ We use the Teensy 4.1 development board, specifically this one:
 - [Teensy 4.1 on Elfa Distrelec](https://www.elfadistrelec.no/no/teensy-utviklingskort-med-headers-sparkfun-electronics-dev-16996/p/30216161?ext_cid=shgooaqnono-Shopping-PerformanceMax-CSS&cq_src=google_ads&cq_cmp=20351270785&cq_con=&cq_term=&cq_med=pla&cq_plac=&cq_net=x&cq_pos=&cq_plt=gp&gclid=CjwKCAjw4P6oBhBsEiwAKYVkq0jYkFst_neMMFQlXfZBW9-KxBMFTjGZog-tAYaTsAmTVziUdTWCHRoCGOcQAvD_BwE&gclsrc=aw.ds)
 - [Teensy 4.1 on RS Online](https://no.rs-online.com/web/p/microcontroller-development-tools/2836911?cm_mmc=NO-PLA-DS3A-_-google-_-CSS_NO_EN_Pmax_Test-_--_-2836911&matchtype=&&gad_source=1&gclid=CjwKCAiA74G9BhAEEiwA8kNfpfuTP6LMEUCaeJ0THdqRm6JLBaF8OzCmbcy2USRwfd5TNwAT9TSBZxoCiPkQAvD_BwE&gclsrc=aw.ds)
 
+If you want to avoid a lot of soldering, ensure that you order with the headers pre-soldered.
+
 ### Electromagnets
 The electromagnets are standard 19×12 mm copper coils with around 480 windings. Searching for “19x12 maglev electromagnet” should result in many options. For example:
 - [Electromagnet on AliExpress](https://www.aliexpress.com/item/4000076659177.html?spm=a2g0o.productlist.main.1.455ew7Phw7PhcV&algo_pvid=489107c2-cb2e-4235-b999-33f5bcec5149&algo_exp_id=489107c2-cb2e-4235-b999-33f5bcec5149-0&pdp_npi=4%40dis%21EUR%216.78%216.24%21%21%217.18%216.61%21%402103249617062671537431660e604c%2110000015610528766%21sea%21NO%210%21AB&curPageLogUid=W7mtjk8XbjMA&utparam-url=scene%3Asearch%7Cquery_from%3A)
