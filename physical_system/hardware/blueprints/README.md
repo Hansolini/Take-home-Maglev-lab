@@ -1,4 +1,4 @@
-# Blueprints
+# Blueprints :hammer_and_wrench:
 This folder contains information about the hardware for all the different versions of Maggy.
 
 ## PCB Designs
