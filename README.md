@@ -54,3 +54,4 @@ Following is information on student reports and hardware development history.
 | V3.0        | A. Morselli                                                    | Modular redesign for first 'Take-home lab'                    | Summer 2024            | \:white_check_mark\: | Decisions on design         |
 | V3.1        | M. Leroux                                                      | Adding USB-C power                                            | Fall 2024              | \:white_check_mark\: | Improved power delivery     |
 | V4.0        | M. Leroux                                                      | New form factor and additional sensing for improved stability | Fall 2024              | \:white_check_mark\: | Improved control            |
+| V4.1        | R. Antonello                                                   | Rerouting PCB tracks and updating components                  | Spring 2025            | \:white_check_mark\: | Meets IPC standards         |
