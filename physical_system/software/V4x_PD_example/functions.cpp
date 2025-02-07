@@ -32,6 +32,20 @@ void initializeSerial() {
 }
 
 void initializeSensor() {
+  // Initialize sensor
+  // Sensor.begin();
+  // if (!Sensor.isFunctional()) {
+  //   Serial.println("Sensor is not functional!");
+  // }
+  // Sensor.softwareReset();
+  // Sensor.setDefaultConfig();
+  // Sensor.setMeasurement(TLx493D_BxByBz_e);
+  // Sensor.setPowerMode(TLx493D_MASTER_CONTROLLED_MODE_e);
+
+  Sensor.begin();
+  Sensor.setAccessMode(Sensor.MASTERCONTROLLEDMODE);
+  Sensor.disableTemp();
+
   // Setting I2C clock speed
   Wire.begin();
   Wire.setClock(1000000);  // 1 MHz I2C speed
@@ -50,20 +64,6 @@ void initializeSensor() {
   // Reconfirm I2C speed
   Wire.setClock(1000000);
   delay(10);
-
-  // Initialize sensor
-  // Sensor.begin();
-  // if (!Sensor.isFunctional()) {
-  //   Serial.println("Sensor is not functional!");
-  // }
-  // Sensor.softwareReset();
-  // Sensor.setDefaultConfig();
-  // Sensor.setMeasurement(TLx493D_BxByBz_e);
-  // Sensor.setPowerMode(TLx493D_MASTER_CONTROLLED_MODE_e);
-
-  Sensor.begin();
-  Sensor.setAccessMode(Sensor.MASTERCONTROLLEDMODE);
-  Sensor.disableTemp();
  }
 
 void initializeSolenoids() {
@@ -87,14 +87,14 @@ void initializeSolenoids() {
   pinMode(CURRENT_Y_NEG, INPUT);
 
   // Defining PWM frequency
-  analogWriteFrequency(MD1_IN1, 32258);
-  analogWriteFrequency(MD1_IN2, 32258);
-  analogWriteFrequency(MD2_IN1, 32258);
-  analogWriteFrequency(MD2_IN2, 32258);
-  analogWriteFrequency(MD3_IN1, 32258);
-  analogWriteFrequency(MD3_IN2, 32258);
-  analogWriteFrequency(MD4_IN1, 32258);
-  analogWriteFrequency(MD4_IN2, 32258);
+  analogWriteFrequency(MD1_IN1, 52258);
+  analogWriteFrequency(MD1_IN2, 52258);
+  analogWriteFrequency(MD2_IN1, 52258);
+  analogWriteFrequency(MD2_IN2, 52258);
+  analogWriteFrequency(MD3_IN1, 52258);
+  analogWriteFrequency(MD3_IN2, 52258);
+  analogWriteFrequency(MD4_IN1, 52258);
+  analogWriteFrequency(MD4_IN2, 52258);
 
   // Setting initial state to 0
   digitalWrite(MD1_IN1, LOW);
