@@ -23,6 +23,6 @@ params.m_l_nom = (params.Br_l/params.mu0)*(pi*params.r_lev^2 *params.h_lev);
 params.J = (1/4)*params.M*(params.r_lev)^2 + (1/12)*params.M*(params.h_lev)^2;
 
 % Positions of base magnets
-params.rp  = 0.02*[1, 0];   % Position of "positive" magnet
-params.rn  = 0.02*[-1, 0];  % Position of "negative" magnet
+params.rp  = 0.023*[1, 0];   % Position of "positive" magnet
+params.rn  = 0.023*[-1, 0];  % Position of "negative" magnet
 params.nw  = 480;           % Number of turns in a solenoid (if needed)
