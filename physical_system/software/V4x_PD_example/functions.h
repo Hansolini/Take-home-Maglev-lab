@@ -20,5 +20,7 @@ void setSolenoidInput(int pwm, int pin1, int pin2);
 void initializeSerial();
 void initializeSensor();
 void initializeSolenoids();
+void clearI2CBus();
+bool sensorInitializedCorrectly();
 
 #endif // FUNCTIONS_H

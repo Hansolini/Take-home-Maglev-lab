@@ -4,6 +4,8 @@
 // === Constants and Macros ===
 // I2C reset pin
 #define RESET_I2C 26
+#define SDA_PIN 18
+#define SCL_PIN 19
 
 // Motor driver pins
 #define MD1_IN1 4
