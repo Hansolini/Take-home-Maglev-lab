@@ -51,7 +51,7 @@ function dx = f(x, u, params)
     % Time derivatives
     dr     = v;
     deta   = T\omega;
-    dv     = F/M_lev + g_vec;
+    dv     = F/M_lev + g_vec + diag([0,0,-5])*v;  % Final term HACK to introduce additional damping in z!
     domega = I_lev\(tau - cross(omega, I_lev*omega));
 
     dx = [dr; deta; dv; domega];
