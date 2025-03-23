@@ -8,6 +8,11 @@ params = parameters;
 index = @(A,i) A(i);
 fz = @(z) index(f([0,0,z,zeros(1,9)]',[0,0,0,0]',params),9);
 
+zeq =  fzero(fz,0.1);
+
+xeq = [0,0,zeq,zeros(1,9)]';
+ueq = [0,0,0,0]';
+
 %% Linearize model
 xlp = xeq;
 ulp = ueq;

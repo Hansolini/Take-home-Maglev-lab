@@ -46,7 +46,7 @@ function dx = f(x, u, params)
     end
 
     % Remove effect of unobservable and uncontrollable states
-    omega(3) = 0;
+    % omega(3) = 0;
 
     % Time derivatives
     dr     = v;

@@ -33,7 +33,7 @@ function params = parameters()
     % Inertia (Solid Cylinder)
     % ------------------------------
     J_xx = (1/4)*params.M_lev*params.r_lev^2 + (1/12)*params.M_lev*params.h_lev^2;
-    J_zz = (1/2)*params.M_lev*params.r_lev^2;
+    J_zz = 1e10;%(1/2)*params.M_lev*params.r_lev^2;
     params.I_lev = diag([J_xx, J_xx, J_zz]);
     
     % ------------------------------
