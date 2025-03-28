@@ -13,8 +13,10 @@ each version of Maggy contains a Teensy 4.1 microcontoller, which handles all of
 	- [https://www.pjrc.com/teensy/package_teensy_index.json](https://www.pjrc.com/teensy/package_teensy_index.json)
     Use a comma to separate it if there is already something written in the field.
 
-![[arduino_preferences.png]]
-_Figure 1: Arduino IDE preferences._
+    <td align="center">
+      <img src="../media/images_and_illustrations/arduino_setup_instructions/arduino_preferences.png" alt="Maglev System Illustration" width="600"><br>
+      Figure 1: Arduino IDE preferences.
+    </td>
 
 ---
 
