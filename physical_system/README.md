@@ -5,7 +5,7 @@
 
 ## Setting up for programming Maggy
 
-each version of Maggy contains a Teensy 4.1 microcontoller, which handles all of the sensor measuremetns, communication and control. This is easily programmed using the Arduino interface, and most of the scripts above are .ino Arduino. To be able to upload these to the Teensy, the following few steps have to be completed:
+Each version of Maggy contains a Teensy 4.1 microcontoller, which handles all of the sensor measuremetns, communication and control. This is easily programmed using the Arduino interface, and most of the scripts above are .ino Arduino. To be able to upload these to the Teensy, the following few steps have to be completed:
 
 1.  Install the latest version of [Arduino IDE](https://www.arduino.cc/en/software).
 
