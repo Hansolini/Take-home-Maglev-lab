@@ -23,4 +23,9 @@
 #define CURRENT_X_POS 22
 #define CURRENT_Y_NEG 23
 
+// Sensor configuration
+#define NUM_SENSORS 3
+extern const int SENSOR_CHANNELS[NUM_SENSORS];
+#define PRIMARY_SENSOR_INDEX 0
+
 #endif // DEFINITIONS_H
