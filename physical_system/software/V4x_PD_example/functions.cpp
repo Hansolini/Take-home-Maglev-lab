@@ -1,11 +1,7 @@
 #include "functions.h"
 
-// extern TLx493D_A1B6 Sensor;
 extern Tlv493d Sensors[];
 extern TCA9548 mux_sensors;
-// These are now defined in definitions.h
-// extern const int NUM_SENSORS;
-// extern const int SENSOR_CHANNELS[];
 
 // Feedthrough slopes
 float feedthroughSlopeX[NUM_SENSORS][2];
@@ -171,15 +167,15 @@ void initializeSolenoids() {
   pinMode(CURRENT_X_POS, INPUT);
   pinMode(CURRENT_Y_NEG, INPUT);
 
-  // Defining PWM frequency
-  analogWriteFrequency(MD1_IN1, 52258);
-  analogWriteFrequency(MD1_IN2, 52258);
-  analogWriteFrequency(MD2_IN1, 52258);
-  analogWriteFrequency(MD2_IN2, 52258);
-  analogWriteFrequency(MD3_IN1, 52258);
-  analogWriteFrequency(MD3_IN2, 52258);
-  analogWriteFrequency(MD4_IN1, 52258);
-  analogWriteFrequency(MD4_IN2, 52258);
+  // Defining PWM frequency - using standard 31250 Hz
+  analogWriteFrequency(MD1_IN1, 31250);
+  analogWriteFrequency(MD1_IN2, 31250);
+  analogWriteFrequency(MD2_IN1, 31250);
+  analogWriteFrequency(MD2_IN2, 31250);
+  analogWriteFrequency(MD3_IN1, 31250);
+  analogWriteFrequency(MD3_IN2, 31250);
+  analogWriteFrequency(MD4_IN1, 31250);
+  analogWriteFrequency(MD4_IN2, 31250);
 
   // Setting initial state to 0
   digitalWrite(MD1_IN1, LOW);
@@ -196,13 +192,16 @@ void initializeSolenoids() {
 void readAllSensors() {
   // Read all sensors - each with its own sensor object
   for (int i = 0; i < NUM_SENSORS; i++) {
+    mux_sensors.enableChannel(SENSOR_CHANNELS[i]); // RE-enabling the channel each time to prevent sensor from freezing (?)
     mux_sensors.selectChannel(SENSOR_CHANNELS[i]);
-    delayMicroseconds(20);
+    delayMicroseconds(10);
 
     Sensors[i].updateData();
+    
     rawMagField[i][0] = Sensors[i].getX();
     rawMagField[i][1] = Sensors[i].getY();
     rawMagField[i][2] = Sensors[i].getZ();
+    delayMicroseconds(10);
   }
 }
 

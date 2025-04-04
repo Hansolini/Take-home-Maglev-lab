@@ -47,6 +47,7 @@
  *   when the solenoids are actuated, especially during rapid changes in current.
  * - This is likely due to electromagnetic interference or power supply fluctuations
  *   from the solenoids affecting the I2C communication with the sensors.
+ * - It also seems to be something with the multiplexer
  * - The system includes automatic detection and recovery from these dropouts.
  * - To minimize dropouts:
  *   - Reduce the I2C speed in the initializeSensors function
@@ -59,7 +60,7 @@
 #include "functions.h"
 
 // Sensor configuration - channels defined here, NUM_SENSORS and PRIMARY_SENSOR_INDEX defined in definitions.h
-const int SENSOR_CHANNELS[NUM_SENSORS] = {7, 2, 3}; // Sensor channel IDs on the multiplexer (also indicated on the PCB)
+const int SENSOR_CHANNELS[NUM_SENSORS] = {7,3,4}; // Sensor channel IDs on the multiplexer (also indicated on the PCB)
 
 // Control parameters
 constexpr float Kp = 150;
