@@ -35,7 +35,7 @@ void sendSensorValues() {
 
   data[0] = 0x01;
 
-  Sensor.updateData(); // Update sensor reading
+  //Sensor.updateData(); // Update sensor reading
 
   *(float*)(data+1) = magFieldX;
   *(float*)(data+5) = magFieldY;
