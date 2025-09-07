@@ -1,5 +1,6 @@
 #include <Tle493d_a2b6.h>
 #include <Wire.h>
+#include <TCA9548.h>
 
 // ############# TO BE MODIFIED ###########
 // Sensor calibration for direct feedthrough
@@ -18,15 +19,17 @@ float Kd = 0.3;
 #define DALPHA 0.02
 
 // Sampling frequency and timer initialization
-const float f_s = 5000;  // Hz sampling rate
+const float f_s = 10000;  // Hz sampling rate
 float prev_time = 1;
 float current_time = 2;
 const int T = round(1e6 / f_s);  // Timer interval in microseconds
 float real_sampling_frequency = 0;
 
 // Sensor initialization
-Tle493d_a2b6 Sensor = Tle493d_a2b6(Tle493d::FASTMODE, Tle493d::TLE493D_A0);
+Tle493d_a2b6 Sensor = Tle493d_a2b6(Tle493d::FASTMODE, Tle493d::TLE493D_A1);
+TCA9548 mux_sensors(0x70);
 
+#define RESET_I2C 26
 // Motor driver pins setup
 //// Motor driver 1
 #define MD1_IN1 3
@@ -62,6 +65,9 @@ float meanBx = 0, meanBy = 0, meanBz = 0;
 float ux = 0, uy = 0;    // Control inputs
 float ex = 0, ey = 0;    // Position error
 float dex = 0, dey = 0;  // Derivative of position error
+
+
+float start, end;
 
 void setup() {
   Serial.begin(115200);
@@ -117,6 +123,13 @@ void setup() {
     meanBz += Sensor.getZ() / 2000;
     initCounter++;
   }
+
+    mux_sensors.setResetPin(RESET_I2C);
+    mux_sensors.reset();
+    if (!mux_sensors.begin()) {
+        Serial.println("COULD NOT CONNECT");
+    }
+    mux_sensors.enableChannel(7);  // Enable once during setup
 }
 
 // Maps control input 'u' to PWM signal
@@ -171,7 +184,11 @@ void loop() {
     real_sampling_frequency = 1e6/(current_time - prev_time);
 
     // Update sensor data
-    Sensor.updateData();
+  start = micros();
+  Sensor.updateData();
+  float end = micros();
+  Serial.print("Sensor update time: ");
+  Serial.println(end - start);
     rawBx = Sensor.getX() - meanBx - DIRECT_FEEDTHROUGH_SLOPE_X_POSITIVE / 255.0 * ux + DIRECT_FEEDTHROUGH_SLOPE_X_NEGATIVE / 255.0 * ux;
     rawBy = Sensor.getY() - meanBy - DIRECT_FEEDTHROUGH_SLOPE_Y_POSITIVE / 255.0 * uy + DIRECT_FEEDTHROUGH_SLOPE_Y_NEGATIVE / 255.0 * uy;
     rawBz = Sensor.getZ() - meanBz;
@@ -204,11 +221,11 @@ void loop() {
       uy = constrain(Kp * ey + Kd * dey, -256, 256);
 
       // Apply control signals to motors
-      change_input(ux, uy);
+      // change_input(ux, uy);
     } else {
       ux = 0;
       uy = 0;
-      change_input(ux, uy);  // Set motors off if bz threshold is not met
+      // change_input(ux, uy);  // Set motors off if bz threshold is not met
     }
 
     // Log data every 100 loops

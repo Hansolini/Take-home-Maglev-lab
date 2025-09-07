@@ -5,7 +5,7 @@ function y = maglevSystemMeasurements(x,u,params,modelName)
 % defining the sensor measurements of a magnetic levitation system. The 
 % system is fully defined by the params struct, and the magnetic model to 
 % be used for the measurements is defined by modelName, which can be either
-% 'fast', 'accurate' or 'fillament'. The measurements computes the effect
+% 'fast', 'accurate' or 'filament'. The measurements computes the effect
 % from all magnetic components of the system.
 %
 % Example:

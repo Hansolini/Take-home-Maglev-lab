@@ -56,21 +56,17 @@
  *******************************************************************************/
 
 // Main sketch file for magnetic levitation PD controller
-#include "definitions.h"
+#include "definitions.h"    
 #include "functions.h"
 
-// Sensor configuration - channels defined here, NUM_SENSORS and PRIMARY_SENSOR_INDEX defined in definitions.h
-const int SENSOR_CHANNELS[NUM_SENSORS] = {7}; // Sensor channel IDs on the multiplexer (also indicated on the PCB)
-
 // Control parameters
-constexpr float Kp = 150;
-constexpr float Kd = 0.8;
-constexpr float ALPHA = 0.3;
+constexpr float Kp = 200;
+constexpr float Kd = 0.9;
+constexpr float ALPHA = 0.2;
 constexpr float DALPHA = 0.2;
 
 // Sensor objects - one for each physical sensor
-Tlv493d Sensors[NUM_SENSORS];
-TCA9548 mux_sensors(0x70);
+TLx493D_A1B6 Sensors[NUM_SENSORS] = {TLx493D_A1B6(Wire, TLx493D_IIC_ADDR_A0_e)};
 
 // Timing parameters
 constexpr float sensorFrequency = 5000.0;

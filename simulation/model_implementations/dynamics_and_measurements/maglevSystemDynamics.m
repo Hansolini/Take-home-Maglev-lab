@@ -3,7 +3,7 @@ function dx = maglevSystemDynamics(x,u,params,modelName)
 % defining the dynamics of a magnetic levitation system. The system is
 % fully defined by the params struct, and the magnetic model to be used is
 % defined by modelName, which can be either 'fast', 'accurate' or 
-% 'fillament'.
+% 'filament'.
 %
 % Example:
 %   params; (from parameter file)

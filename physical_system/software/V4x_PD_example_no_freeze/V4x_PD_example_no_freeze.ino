@@ -65,11 +65,11 @@ const int SENSOR_CHANNELS[NUM_SENSORS] = {7}; // Sensor channel IDs on the multi
 // Control parameters
 constexpr float Kp = 150;
 constexpr float Kd = 0.8;
-constexpr float ALPHA = 0.3;
+constexpr float ALPHA = 0.2;
 constexpr float DALPHA = 0.2;
 
 // Sensor objects - one for each physical sensor
-Tlv493d Sensors[NUM_SENSORS];
+TLx493D_A1B6 Sensors[NUM_SENSORS] = {TLx493D_A1B6(Wire, TLx493D_IIC_ADDR_A0_e)};
 TCA9548 mux_sensors(0x70);
 
 // Timing parameters

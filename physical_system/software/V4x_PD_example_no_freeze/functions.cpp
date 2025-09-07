@@ -1,8 +1,8 @@
 #include "functions.h"
 
-extern Tlv493d Sensors[];
+extern TLx493D_A1B6 Sensors[NUM_SENSORS];
 extern TCA9548 mux_sensors;
-
+ 
 // Feedthrough slopes
 float feedthroughSlopeX[NUM_SENSORS][2];
 float feedthroughSlopeY[NUM_SENSORS][2];
@@ -81,20 +81,18 @@ void initializeSensors() {
     // Attempt sensor initialization with retries
     const int maxRetries = 5;
     bool initialized = false;
-    for (int retry = 0; retry < maxRetries && !initialized; retry++) {
-      Sensors[i].begin();
-      delay(20);
-      Sensors[i].setAccessMode(Sensors[i].MASTERCONTROLLEDMODE);
-      Sensors[i].disableTemp();
-      delay(20);
+    for (int retry = 0; retry < maxRetries && !initialized; ++retry)
+    {
+        initialized =  Sensors[i].begin() && Sensors[i].isFunctional();
+        // Sensors[i].setPowerMode(TLx493D_FAST_MODE_e); // Fast mode will be more noisy, but can sample faster. Requires 1Mhz wire speed. This is not supported by the MUX.
+        // Sensors[i].setSensitivity(TLx493D_FULL_RANGE_e);
 
-      initialized = sensorInitializedCorrectly(i);
-      if (!initialized) {
-        Serial.print("Retrying sensor initialization on channel ");
-        Serial.print(channel);
-        Serial.print("... attempt ");
-        Serial.println(retry + 1);
-      }
+        if (!initialized)
+        {
+            Serial.printf("Retrying sensor on channel %d... attempt %d\n",
+                          channel, retry + 1);
+            delay(20);
+        }
     }
     if (!initialized) {
       Serial.print("Sensor on channel ");
@@ -111,15 +109,6 @@ void initializeSensors() {
   Wire.begin();
   Wire.setClock(400000);
   delay(50);
-}
-
-bool sensorInitializedCorrectly(int sensorIndex){
-  Sensors[sensorIndex].updateData();
-  float checkX = Sensors[sensorIndex].getX();
-  float checkY = Sensors[sensorIndex].getY();
-  float checkZ = Sensors[sensorIndex].getZ();
-
-  return (abs(checkX) > 0.00001 || abs(checkY) > 0.00001 || abs(checkZ) > 0.00001);
 }
 
 void clearI2CBus() {
@@ -189,18 +178,23 @@ void initializeSolenoids() {
 }
 
 // Sensor management functions
-void readAllSensors() {
-  for (int i = 0; i < NUM_SENSORS; i++) {
-    mux_sensors.selectChannel(SENSOR_CHANNELS[i]);
+void readAllSensors()
+{
+    for (int i = 0; i < NUM_SENSORS; ++i)
+    {
+        // 1) point the TCA9548A at the current sensor
+        // mux_sensors.selectChannel(SENSOR_CHANNELS[i]);
+        delayMicroseconds(50);          // let the bus lines settle
 
-    // delay(Sensors[i].getMeasurementDelay());
-    delayMicroseconds(50);
-    Sensors[i].updateData();
-
-    rawMagField[i][0] = Sensors[i].getX();
-    rawMagField[i][1] = Sensors[i].getY();
-    rawMagField[i][2] = Sensors[i].getZ();
-  }
+        // 2) read one complete XYZ conversion
+        double x, y, z;
+        if (Sensors[i].getMagneticField(&x, &y, &z))
+        {
+            rawMagField[i][0] = static_cast<float>(x);
+            rawMagField[i][1] = static_cast<float>(y);
+            rawMagField[i][2] = static_cast<float>(z);
+        }
+    }
 }
 
 void processSensorData(float currentXPos, float currentXNeg, float currentYPos, float currentYNeg) {
@@ -307,190 +301,172 @@ void logSystemState(unsigned long currentTime, float currentXPos, float currentX
   }
 }
 
-void calibrateSensors(){
-  Serial.println("Calibrating sensors...");
-  for(int i = 0; i < 1000; i++){
-    for (int j = 0; j < NUM_SENSORS; j++) {
-      mux_sensors.selectChannel(SENSOR_CHANNELS[j]);
-      delayMicroseconds(10);
-      Sensors[j].updateData();
-      float tempX = Sensors[j].getX();
-      float tempY = Sensors[j].getY();
-      float tempZ = Sensors[j].getZ();
-      meanMagField[j][0] += tempX / 1000.0;
-      meanMagField[j][1] += tempY / 1000.0;
-      meanMagField[j][2] += tempZ / 1000.0;
-      delay(1);
-    }
-  }
-  Serial.println("Sensor calibration complete.");
+void calibrateSensors()
+{
+    Serial.println("Calibrating sensors...");
 
-  for (int j = 0; j < NUM_SENSORS; j++) {
-    Serial.println(meanMagField[j][0]);
-    Serial.println(meanMagField[j][1]);
-    Serial.println(meanMagField[j][2]);
-  }
+    constexpr int SAMPLES = 1000;
+
+    /*  clear the running sums */
+    for (int s = 0; s < NUM_SENSORS; ++s) {
+        meanMagField[s][0] = meanMagField[s][1] = meanMagField[s][2] = 0.0f;
+    }
+
+    /*  collect SAMPLES readings from every sensor */
+    for (int n = 0; n < SAMPLES; ++n) {
+        for (int s = 0; s < NUM_SENSORS; ++s) {
+            mux_sensors.selectChannel(SENSOR_CHANNELS[s]);
+            delayMicroseconds(10);          // bus-settle after mux switch
+
+            double x, y, z;
+            if (Sensors[s].getMagneticField(&x, &y, &z))
+            {
+                meanMagField[s][0] += static_cast<float>(x);
+                meanMagField[s][1] += static_cast<float>(y);
+                meanMagField[s][2] += static_cast<float>(z);
+            }
+            /* else: bad frame – ignore, keep previous total */
+
+            delay(1);                       // ~1 kSps per sensor, like original
+        }
+    }
+
+    /*  convert accumulated sums into arithmetic means */
+    for (int s = 0; s < NUM_SENSORS; ++s) {
+        meanMagField[s][0] /= SAMPLES;
+        meanMagField[s][1] /= SAMPLES;
+        meanMagField[s][2] /= SAMPLES;
+    }
+
+    Serial.println("Sensor calibration complete.");
+
+    /*  dump the new offsets for reference */
+    for (int s = 0; s < NUM_SENSORS; ++s) {
+        Serial.print("Sensor "); Serial.print(s); Serial.print(" mean XYZ = ");
+        Serial.print(meanMagField[s][0]); Serial.print(", ");
+        Serial.print(meanMagField[s][1]); Serial.print(", ");
+        Serial.println(meanMagField[s][2]);
+    }
 }
 
-void calibrateDirectFeedthrough(){
-  Serial.println("Calibrating feedthrough...");
-  
-  // Calibration parameters
-  const int segTime = 100;
-  const int settleDelay = 50;
-  const int numLevels = 3;
-  float currentLevels[numLevels] = {50.0, 100.0, 150.0};
-  
-  // Define solenoid pin configurations for calibration
-  struct SolenoidConfig {
-    uint8_t in1;
-    uint8_t in2;
-    int currentChannel;
-    bool isPositive;
-  };
-  
-  SolenoidConfig solenoidConfigs[4] = {
-    {MD2_IN1, MD2_IN2, CURRENT_X_POS, true},  // X Positive
-    {MD3_IN1, MD3_IN2, CURRENT_X_NEG, false}, // X Negative
-    {MD4_IN1, MD4_IN2, CURRENT_Y_POS, true},  // Y Positive
-    {MD1_IN1, MD1_IN2, CURRENT_Y_NEG, false}  // Y Negative
-  };
-  
-  // Arrays to store summed measurements for slope calculation
-  float sumSensor[NUM_SENSORS][3][4]; // [sensorIndex][axis][solenoidIndex]
-  float sumCurrent[4];                // [solenoidIndex]
-  int counts[4] = {0};                // [solenoidIndex]
-  
-  // For each solenoid direction 
-  for (int solenoidIdx = 0; solenoidIdx < 4; solenoidIdx++) {
-    Serial.print("Calibrating feedthrough for solenoid ");
-    Serial.println(solenoidIdx);
-    
-    // Reset summed values
-    for (int i = 0; i < NUM_SENSORS; i++) {
-      for (int j = 0; j < 3; j++) {
-        sumSensor[i][j][solenoidIdx] = 0;
-      }
+
+void calibrateDirectFeedthrough()
+{
+    Serial.println("Calibrating feedthrough…");
+
+    /*--- user-tunable parameters ---*/
+    constexpr int  segTime      = 100;      // ms of data per current level
+    constexpr int  settleDelay  = 50;       // ms after changing PWM
+    constexpr int  numLevels    = 3;
+    const     float currentLevels[numLevels] = { 50.0f, 100.0f, 150.0f };
+
+    /*--- solenoid pin map ---*/
+    struct SolenoidConfig {
+        uint8_t in1;
+        uint8_t in2;
+        int     currentChannel;
+        bool    isPositive;
+    };
+
+    const SolenoidConfig solenoidConfigs[4] = {
+        { MD2_IN1, MD2_IN2, CURRENT_X_POS, true  }, // X+
+        { MD3_IN1, MD3_IN2, CURRENT_X_NEG, false }, // X-
+        { MD4_IN1, MD4_IN2, CURRENT_Y_POS, true  }, // Y+
+        { MD1_IN1, MD1_IN2, CURRENT_Y_NEG, false }  // Y-
+    };
+
+    /*--- accumulators ---*/
+    float sumSensor[NUM_SENSORS][3][4] = {0}; // axis 0=X 1=Y 2=Z
+    float sumCurrent[4]                 = {0};
+    int   counts[4]                     = {0};
+
+    /*--------------------------------------------------
+     *  sweep through each solenoid direction
+     *-------------------------------------------------*/
+    for (int sol = 0; sol < 4; ++sol)
+    {
+        Serial.print(F("Calibrating feedthrough for solenoid "));
+        Serial.println(sol);
+
+        for (int lvl = 0; lvl < numLevels; ++lvl)
+        {
+            const float pwm = currentLevels[lvl];
+            setSolenoidInput(pwm,
+                             solenoidConfigs[sol].in1,
+                             solenoidConfigs[sol].in2);
+            delay(settleDelay);
+
+            const unsigned long t0 = millis();
+            while (millis() - t0 < segTime)
+            {
+                /* measure coil current */
+                const float I = getSolenoidCurrent(solenoidConfigs[sol].currentChannel);
+                sumCurrent[sol] += I;
+
+                /* measure all magnetometers */
+                for (int s = 0; s < NUM_SENSORS; ++s)
+                {
+                    mux_sensors.selectChannel(SENSOR_CHANNELS[s]);
+                    delayMicroseconds(50);   // bus settle
+
+                    double x, y, z;
+                    if (Sensors[s].getMagneticField(&x, &y, &z))
+                    {
+                        sumSensor[s][0][sol] += static_cast<float>(x);
+                        sumSensor[s][1][sol] += static_cast<float>(y);
+                        sumSensor[s][2][sol] += static_cast<float>(z);
+                    }
+                }
+
+                ++counts[sol];
+                delay(10);
+            }
+
+            /*  turn coil off before next PWM level  */
+            setSolenoidInput(0,
+                             solenoidConfigs[sol].in1,
+                             solenoidConfigs[sol].in2);
+            delay(50);
+        }
     }
-    sumCurrent[solenoidIdx] = 0;
-    counts[solenoidIdx] = 0;
-    
-    // For each current level
-    for (int level = 0; level < numLevels; level++) {
-      float appliedCurrent = currentLevels[level];
-      
-      // Apply the current to this solenoid
-      setSolenoidInput(appliedCurrent, solenoidConfigs[solenoidIdx].in1, solenoidConfigs[solenoidIdx].in2);
-      delay(settleDelay);
-      
-      // Measure for segTime duration
-      unsigned long startTime = millis();
-      while (millis() - startTime < segTime) {
-        // Measure solenoid current
-        float currentMeasured = getSolenoidCurrent(solenoidConfigs[solenoidIdx].currentChannel);
-        sumCurrent[solenoidIdx] += currentMeasured;
-        
-        // Read all sensors for this current measurement
-        for (int sensorIdx = 0; sensorIdx < NUM_SENSORS; sensorIdx++) {
-          mux_sensors.selectChannel(SENSOR_CHANNELS[sensorIdx]);
-          delayMicroseconds(50);
-          Sensors[sensorIdx].updateData();
-          
-          // Store measurements for X, Y, Z axes
-          sumSensor[sensorIdx][0][solenoidIdx] += Sensors[sensorIdx].getX();
-          sumSensor[sensorIdx][1][solenoidIdx] += Sensors[sensorIdx].getY();
-          sumSensor[sensorIdx][2][solenoidIdx] += Sensors[sensorIdx].getZ();
+
+    /*--------------------------------------------------
+     *  convert sums ⇒ slopes
+     *-------------------------------------------------*/
+    for (int s = 0; s < NUM_SENSORS; ++s)
+    {
+        for (int sol = 0; sol < 4; ++sol)
+        {
+            if (counts[sol] == 0) continue;
+            const float Iavg = sumCurrent[sol] / counts[sol];
+
+            /* X axis – affected only by solenoids 0 and 1 */
+            if (sol < 2)
+            {
+                const float Sx = sumSensor[s][0][sol] / counts[sol];
+                const float k  = (Sx - meanMagField[s][0]) / Iavg;
+                feedthroughSlopeX[s][ solenoidConfigs[sol].isPositive ? 0 : 1 ] = -k;
+            }
+
+            /* Y axis – affected only by solenoids 2 and 3 */
+            if (sol >= 2)
+            {
+                const float Sy = sumSensor[s][1][sol] / counts[sol];
+                const float k  = (Sy - meanMagField[s][1]) / Iavg;
+                feedthroughSlopeY[s][ solenoidConfigs[sol].isPositive ? 0 : 1 ] = -k;
+            }
+
+            /* Z axis – affected by all solenoids */
+            const float Sz = sumSensor[s][2][sol] / counts[sol];
+            const float kZ = (Sz - meanMagField[s][2]) / Iavg;
+
+            if (sol < 2)  // X coils’ impact on Z
+                feedthroughSlopeZX[s][ solenoidConfigs[sol].isPositive ? 0 : 1 ] = -kZ;
+            else          // Y coils’ impact on Z
+                feedthroughSlopeZY[s][ solenoidConfigs[sol].isPositive ? 0 : 1 ] = -kZ;
         }
-        
-        counts[solenoidIdx]++;
-        delay(10);
-      }
-      
-      // Turn off the solenoid current after measurement
-      setSolenoidInput(0, solenoidConfigs[solenoidIdx].in1, solenoidConfigs[solenoidIdx].in2);
-      delay(50);
     }
-  }
-  
-  // Calculate slopes for each sensor and axis
-  for (int sensorIdx = 0; sensorIdx < NUM_SENSORS; sensorIdx++) {
-    for (int solenoidIdx = 0; solenoidIdx < 4; solenoidIdx++) {
-      if (counts[solenoidIdx] > 0) {
-        float avgCurrent = sumCurrent[solenoidIdx] / counts[solenoidIdx];
-        
-        // X axis - Only affected by X solenoids (0 and 1)
-        if (solenoidIdx < 2) {
-          float avgSensor = sumSensor[sensorIdx][0][solenoidIdx] / counts[solenoidIdx];
-          float slope = (avgSensor - meanMagField[sensorIdx][0]) / avgCurrent;
-          
-          if (solenoidConfigs[solenoidIdx].isPositive) {
-            feedthroughSlopeX[sensorIdx][0] = -slope; // X positive
-          } else {
-            feedthroughSlopeX[sensorIdx][1] = -slope; // X negative
-          }
-        }
-        
-        // Y axis - Only affected by Y solenoids (2 and 3)
-        if (solenoidIdx >= 2) {
-          float avgSensor = sumSensor[sensorIdx][1][solenoidIdx] / counts[solenoidIdx];
-          float slope = (avgSensor - meanMagField[sensorIdx][1]) / avgCurrent;
-          
-          if (solenoidConfigs[solenoidIdx].isPositive) {
-            feedthroughSlopeY[sensorIdx][0] = -slope; // Y positive
-          } else {
-            feedthroughSlopeY[sensorIdx][1] = -slope; // Y negative
-          }
-        }
-        
-        // Z axis - Affected by all solenoids
-        float avgSensor = sumSensor[sensorIdx][2][solenoidIdx] / counts[solenoidIdx];
-        float slope = (avgSensor - meanMagField[sensorIdx][2]) / avgCurrent;
-        
-        if (solenoidIdx < 2) { // X solenoids effect on Z
-          if (solenoidConfigs[solenoidIdx].isPositive) {
-            feedthroughSlopeZX[sensorIdx][0] = -slope; // X positive effect on Z
-          } else {
-            feedthroughSlopeZX[sensorIdx][1] = -slope; // X negative effect on Z
-          }
-        } else { // Y solenoids effect on Z
-          if (solenoidConfigs[solenoidIdx].isPositive) {
-            feedthroughSlopeZY[sensorIdx][0] = -slope; // Y positive effect on Z
-          } else {
-            feedthroughSlopeZY[sensorIdx][1] = -slope; // Y negative effect on Z
-          }
-        }
-      }
-    }
-  }
-  
-  Serial.println("Feedthrough calibration complete.");
-  
-  // Print results for debugging
-  for (int i = 0; i < NUM_SENSORS; i++) {
-    Serial.print("Sensor ");
-    Serial.print(i);
-    Serial.print(" (Channel ");
-    Serial.print(SENSOR_CHANNELS[i]);
-    Serial.println("):");
-    
-    Serial.print("  X: Pos=");
-    Serial.print(feedthroughSlopeX[i][0]);
-    Serial.print(", Neg=");
-    Serial.println(feedthroughSlopeX[i][1]);
-    
-    Serial.print("  Y: Pos=");
-    Serial.print(feedthroughSlopeY[i][0]);
-    Serial.print(", Neg=");
-    Serial.println(feedthroughSlopeY[i][1]);
-    
-    Serial.print("  ZX: Pos=");
-    Serial.print(feedthroughSlopeZX[i][0]);
-    Serial.print(", Neg=");
-    Serial.println(feedthroughSlopeZX[i][1]);
-    
-    Serial.print("  ZY: Pos=");
-    Serial.print(feedthroughSlopeZY[i][0]);
-    Serial.print(", Neg=");
-    Serial.println(feedthroughSlopeZY[i][1]);
-  }
+
+    Serial.println(F("Feedthrough calibration complete."));
 }
+
