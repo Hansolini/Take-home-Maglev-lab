@@ -1,0 +1,1 @@
+Here are URLs to code used in the master thesis of [Ørnulf Damsgaard](https://github.com/ornulf2001/Master-thesis/tree/main) and Mikael Mjelde (link mangler)
