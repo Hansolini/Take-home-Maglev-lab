@@ -54,9 +54,9 @@ switch modelName
             params.physical.mu0);
 end
 bMagnet = R*[bxMagnet; byMagnet; bzMagnet];
-bxMagnet = bMagnet(1,:);
-byMagnet = bMagnet(2,:);
-bzMagnet = bMagnet(3,:);
+bxMagnet = reshape(bMagnet(1,:), size(bxBase));
+byMagnet = reshape(bMagnet(2,:), size(byBase));
+bzMagnet = reshape(bMagnet(3,:), size(bzBase));
 
 %% Total field
 bx = bxBase + bxMagnet;
