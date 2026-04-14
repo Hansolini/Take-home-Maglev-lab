@@ -3,19 +3,23 @@
 <table align="center">
   <tr>
     <td align="center">
-      <img src="./media/images_and_illustrations/maggy_30_levitating.jpg" alt="Maggy 30 Levitating" width="400"><br>
-      1) Version 2.6 of the lab.
+      <img src="./media/images_and_illustrations/maggy-4.0-physical-setup.png" alt="current hardware" width="400"><br>
+      1) Current version of the hardware.
     </td>
     <td align="center">
-      <img src="./media/images_and_illustrations/maglev_system_illustration.jpg" alt="Maglev System Illustration" width="400"><br>
-      2) Illustration of the system.
+      <img src="./media/images_and_illustrations/maggy-4.1-electronics-scheme.png" alt="current electronics" width="400"><br>
+      2) Overview of the current PCB.
+    </td>
+    <td align="center">
+      <img src="./media/images_and_illustrations/maglev_system_illustration.jpg" alt="magnetic structure" width="400"><br>
+      2) Magnetic structure of the system.
     </td>
   </tr>
 </table>
 
 The "Take-home Maglev lab" is a small lab in development at the Norwegian University of Science and Technology (NTNU) tailored to students in control and related fields. It is intended as a kit that students can bring home and assemble independently, with additional lab assignments for teaching anything from fundamental to advanced concepts within control engineering.
 
-See [the wiki](https://www.ntnu.no/wiki/x/OYSyEw) for more information on the project.
+See [the wiki](https://www.ntnu.no/wiki/x/OYSyEw) for more information on the project, and [this](https://youtube.com/shorts/XnbO15yq0vE) plus [this](https://youtube.com/shorts/F0SiuVEP2tM) videos to see how it looks like.
 
 This repository contains a
 - **[MATLAB simulator](./simulation):** Implementation of several models with examples, see [main.mlx](./simulation/main.mlx) for how to use it.
@@ -42,6 +46,16 @@ Following is information on student reports and hardware development history.
 3. [A. Dal Bello, "Tracking Visual Markers For Maglev Platforms", B.S. thesis, DSMN, UNIVE, Venezia, 2024.](./student_contributions/literature/2024_UNIVE_bachelor_thesis_alessandra_dal_bello.pdf)
 4. [G. D'Auria, "Computer based state observers for magnet systems", B.S. thesis, DEI, UNIPD, Padova, 2024.](./student_contributions/literature/2024_UNIPD_bachelor_thesis_giuseppe_d'auria.pdf)
 ### 2025
+1. [Ø. Damsgaard, "Moving horizon state estimation for predictive control of magnetic levitation systems", M.S. thesis, ITK, NTNU, Trondheim, 2025](./student_contributions/literature/2025_MSc_thesis_-_Ørnulf_Damsgaard_-_Moving_horizon_state_estimation_for_predictive_control_of_magnetic_levitation_systems.pdf.pdf)
+2. [M. Mjelde, "Robust Model Predictive Control for a Magnetic Levitation System", M.S. thesis, ITK, NTNU, Trondheim, 2025](./student_contributions/literature/2025_MSc_thesis_-_Mikael_Mjelde_-_Robust_Model_Predictive_Control_for_a_Maglev.pdf)
+3. [L. Ongaro, "Adapting a maglev system for the ball and beam control", B.S. thesis, University of Padova, 2025](./student_contributions/literature/2025_BSc_thesis_Ongaro_Leonardo_Adapting_a_maglev_system_for_the_ball_and_beam_control.pdf)
+4. [M. Palamin, "Comunicazione tra un sistema maglev e dispositivi esterni: implementazione e implicazioni per la didattica sulla Teoria del Controllo", B.S. thesis, University of Padova, 2025](./student_contributions/literature/2025_BSc_thesis_Palamin_Manuel_Comunicazione_tra_un_sistema_maglev_e_dispositivi_esterni.pdf)
+5. [T. Chinello, "Bode and Nyquist plots for the analysis and control of a magnetic levitation system", B.S. thesis, University of Padova, 2025](./student_contributions/literature/2025_BSc_thesis_Chinello_Tommaso_Bode_and_Nyquist_plots_for_the_analysis_and_control_of_a_magnetic_levitation_system.pdf)
+6. [T. A. Jonsson, "Implementation of a Moving Horizon Estimator Using the Acados Framework", M.S. project, ITK, NTNU, Trondheim, 2025](./student_contributions/literature/2025_Prosjektoppgave_-_Thomas_Aleksander_Jonsson_-_MHE_for_Maggy.pdf)
+7. [E. Bruaset, "Acados-based Implementation of Nonlinear MPC for Magnetic Levitation", M.S. project, ITK, NTNU, Trondheim, 2025](./student_contributions/literature/2025_Prosjektoppgave_-_Eivind_Bruaset_-_Acados_for_Maggy.pdf)
+8. [L. Edvardsen, "Reinforcement Learning for MagLev Control", M.S. project, ITK, NTNU, Trondheim, 2025](./student_contributions/literature/2025_Prosjektoppgave_-_Linus_Edvardsen_-_RL_for_Maggy.pdf)
+9. [M. Jullum Faanes, "CasADi-based Implementation of Nonlinear MPC for Magnetic Levitation", M.S. project, ITK, NTNU, Trondheim, 2025](./student_contributions/literature/2025_Prosjektoppgave_-_Marius_Jullum_Faanes_-_SMPC_for_Maggy.pdf)
+
 
 ## Development history \:rocket\:
 | **Version** | **Developer**                                                  | **Goal**                                                      | **Development period** |      **Status**      | **Result**                  |
@@ -55,3 +69,5 @@ Following is information on student reports and hardware development history.
 | V3.1        | M. Leroux                                                      | Adding USB-C power                                            | Fall 2024              | \:white_check_mark\: | Improved power delivery     |
 | V4.0        | M. Leroux                                                      | New form factor and additional sensing for improved stability | Fall 2024              | \:white_check_mark\: | Improved control            |
 | V4.1        | R. Antonello                                                   | Rerouting PCB tracks and updating components                  | Spring 2025            | \:white_check_mark\: | Meets IPC standards         |
+| V4.2        | K. Blom                                                        | Creating a MISO version of the board                          | Spring 2025            | \:white_check_mark\: | MISO board                  |
+| V4.3        | A. Morselli                                                    | Improving EM compatibility via some rerouting                 | Fall 2025              | \:white_check_mark\: | Improved EM compatibility   |
