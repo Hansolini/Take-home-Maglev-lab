@@ -19,14 +19,14 @@
 
 The "Take-home Maglev lab" is a small lab in development at the Norwegian University of Science and Technology (NTNU), University of Padova, Italy, and University in Stavanger, Norway. The setup is tailored to help students learn control and related fields, and is intended as a kit that students can bring home and assemble independently, with additional lab assignments for teaching anything from fundamental to advanced concepts within control engineering.
 
-See [the wiki](https://www.ntnu.no/wiki/x/OYSyEw) for more information on the project, and [this](https://youtube.com/shorts/XnbO15yq0vE) plus [this](https://youtube.com/shorts/F0SiuVEP2tM) videos to see how it looks like.
+If you want to see how the platform looks like and how effective it is to achieve levitation (actually with a PD controller in this case), see [this](https://youtube.com/shorts/XnbO15yq0vE) and [this](https://youtube.com/shorts/F0SiuVEP2tM) videos.
 
-This repository contains a
-- **[MATLAB simulator](./simulation):** Implementation of several models with examples, see [main.mlx](./simulation/main.mlx) for how to use it.
-- **[Design files & software](./physical_system):** PCB files, test code, and example usage for the physical system.
-- **[Student contributions](./student_contributions):** Code and project reports from student projects.
+As for this repository, it contains a
+- **[MATLAB simulator](./simulation),** implementing several models with examples. See [main.mlx](./simulation/main.mlx) for a guide on how to use it.
+- **[Design files & software](./physical_system),** and thus PCB files, test code, with examples for how to use the physical system.
+- **[Student contributions](./student_contributions),** i.e., theses and project reports from the students that have contributed to the project.
 
-Following is information on student reports and hardware development history.
+The following is a table about such student reports, summarizing also the hardware development history.
 ## Project reports \:books\:
 ### 2022
  1. [M. Brønstad, J. O. Deila, J. Dyerskog, and M. Langklopp, "Magnetic levitation system: Design, prototyping and testing of a digital PID-controller", B.S. thesis, ITK, NTNU, Trondheim, 2022.](./student_contributions/literature/2022_NTNU_bachelor_thesis_MJJM.pdf)
